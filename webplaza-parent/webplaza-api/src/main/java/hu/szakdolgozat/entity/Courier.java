@@ -5,26 +5,25 @@ import hu.szakdolgozat.enums.OrderState;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "COURIER")
+@Table(name = "courier")
 public class Courier extends CoreEntity {
 
-    @Column(name = "FULL_NAME")
+    @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    @Column(name = "PHONE_NUMBER")
+    @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @Column(name = "PLAZA")
+    @OneToOne(mappedBy = "courier")
+    private Order currentOrder;
+
     @ManyToOne
+    @JoinColumn(name = "plaza_id")
     private Plaza plaza;
 
-    @Column(name = "ORDER_STATE")
+    @Column(name = "order_state", nullable = false, columnDefinition = "VARCHAR(255) DEFAULT 'WAITING'")
     @Enumerated(EnumType.STRING)
     private OrderState orderState;
-
-    @Column(name = "CURRENT_ORDER")
-    @OneToOne
-    private Order currentOrder;
 
     public String getFullName() {
         return fullName;
@@ -42,6 +41,14 @@ public class Courier extends CoreEntity {
         this.phoneNumber = phoneNumber;
     }
 
+    public Order getCurrentOrder() {
+        return currentOrder;
+    }
+
+    public void setCurrentOrder(Order currentOrder) {
+        this.currentOrder = currentOrder;
+    }
+
     public Plaza getPlaza() {
         return plaza;
     }
@@ -50,11 +57,11 @@ public class Courier extends CoreEntity {
         this.plaza = plaza;
     }
 
-    public Order getCurrentOrder() {
-        return currentOrder;
+    public OrderState getOrderState() {
+        return orderState;
     }
 
-    public void setCurrentOrder(Order currentOrder) {
-        this.currentOrder = currentOrder;
+    public void setOrderState(OrderState orderState) {
+        this.orderState = orderState;
     }
 }

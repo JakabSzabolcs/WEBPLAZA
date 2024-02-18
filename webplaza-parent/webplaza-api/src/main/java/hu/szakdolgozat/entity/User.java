@@ -3,30 +3,23 @@ package hu.szakdolgozat.entity;
 import hu.szakdolgozat.enums.UserType;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
 @Table(name = "USER")
 public class User extends CoreEntity {
 
-    @NotNull
-    @Size(max = 200)
-    @Column(name = "USERNAME")
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @NotNull
-    @Column(name = "PASSWORD")
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @NotNull
-    @Column(name = "ROLE")
     @Enumerated(EnumType.STRING)
-    private UserType role;
+    @Column(name = "type", nullable = false)
+    private UserType type;
 
-    @Column(name = "ORDERS")
-    @OneToMany
+    @OneToMany(mappedBy = "customer")
     private List<Order> orders;
 
     public String getUsername() {
@@ -45,12 +38,12 @@ public class User extends CoreEntity {
         this.password = password;
     }
 
-    public UserType getRole() {
-        return role;
+    public UserType getType() {
+        return type;
     }
 
-    public void setRole(UserType role) {
-        this.role = role;
+    public void setType(UserType type) {
+        this.type = type;
     }
 
     public List<Order> getOrders() {

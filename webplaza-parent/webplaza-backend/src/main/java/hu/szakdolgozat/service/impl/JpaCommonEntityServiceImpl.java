@@ -4,6 +4,8 @@ import hu.szakdolgozat.dao.JpaCommonEntityDao;
 import hu.szakdolgozat.entity.CoreEntity;
 import hu.szakdolgozat.service.JpaCommonEntityService;
 
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import java.util.List;
 
@@ -23,12 +25,14 @@ public abstract class JpaCommonEntityServiceImpl<T extends CoreEntity> implement
     }
 
     @Override
-    public T getById(T entityClass, Long id) {
+    @TransactionAttribute(TransactionAttributeType.NEVER)
+    public T getById(Long id) {
         return dao.getById(id);
     }
 
     @Override
-    public List<T> getAllEntity(T entityClass) {
-        return dao.getAllEntity(entityClass);
+    @TransactionAttribute(TransactionAttributeType.NEVER)
+    public List<T> getAllEntity() {
+        return dao.getAllEntity();
     }
 }

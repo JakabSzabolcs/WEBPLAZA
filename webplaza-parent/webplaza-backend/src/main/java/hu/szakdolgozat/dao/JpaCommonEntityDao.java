@@ -5,7 +5,7 @@ import hu.szakdolgozat.entity.CoreEntity;
 import java.util.List;
 
 public interface JpaCommonEntityDao<T extends CoreEntity> {
-    List<T> getAllEntity(T entity);
+    List<T> getAllEntity();
 
     void add(T entity);
 

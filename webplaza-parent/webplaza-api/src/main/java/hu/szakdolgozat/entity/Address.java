@@ -5,17 +5,20 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-    @Entity
-    @Table(name = "ADDRESS")
-    public class Address extends CoreEntity {
-        @Column(name = "CITY")
-        private String city;
-        @Column(name = "STREET")
-        private String street;
-        @Column(name = "HOUSE_NUMBER")
-        private String houseNumber;
-        @Column(name = "ZIP_CODE")
-        private String zipCode;
+@Entity
+@Table(name = "address")
+public class Address extends CoreEntity {
+    @Column(name = "city", nullable = false)
+    private String city;
+
+    @Column(name = "street", nullable = false)
+    private String street;
+
+    @Column(name = "house_number", nullable = false)
+    private String houseNumber;
+
+    @Column(name = "zip_code", nullable = false)
+    private String zipCode;
 
     public Address() {
     }
@@ -31,28 +34,28 @@ import javax.persistence.Table;
         return city;
     }
 
-    public String getStreet() {
-        return street;
-    }
-
-    public String getHouseNumber() {
-        return houseNumber;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getStreet() {
+        return street;
     }
 
     public void setStreet(String street) {
         this.street = street;
     }
 
+    public String getHouseNumber() {
+        return houseNumber;
+    }
+
     public void setHouseNumber(String houseNumber) {
         this.houseNumber = houseNumber;
+    }
+
+    public String getZipCode() {
+        return zipCode;
     }
 
     public void setZipCode(String zipCode) {

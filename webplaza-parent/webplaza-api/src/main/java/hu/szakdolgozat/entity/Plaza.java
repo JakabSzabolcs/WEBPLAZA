@@ -4,23 +4,21 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "PLAZA")
+@Table(name = "plaza")
 public class Plaza extends CoreEntity {
 
-    @Column(name = "NAME")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "ADDRESS")
     @OneToOne
+    @JoinColumn(name = "address_id")
     private Address address;
 
-    @Column(name = "SHOPS")
-    @OneToMany
-    private List<Shop> shops;
-
-    @Column(name = "COURIERS")
-    @OneToMany
+    @OneToMany(mappedBy = "plaza")
     private List<Courier> couriers;
+
+    @OneToMany(mappedBy = "plaza")
+    private List<Shop> shops;
 
     public String getName() {
         return name;
@@ -38,19 +36,19 @@ public class Plaza extends CoreEntity {
         this.address = address;
     }
 
-    public List<Shop> getShops() {
-        return shops;
-    }
-
-    public void setShops(List<Shop> shops) {
-        this.shops = shops;
-    }
-
     public List<Courier> getCouriers() {
         return couriers;
     }
 
     public void setCouriers(List<Courier> couriers) {
         this.couriers = couriers;
+    }
+
+    public List<Shop> getShops() {
+        return shops;
+    }
+
+    public void setShops(List<Shop> shops) {
+        this.shops = shops;
     }
 }

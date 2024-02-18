@@ -3,20 +3,19 @@ package hu.szakdolgozat.dao.impl;
 import hu.szakdolgozat.dao.JpaCommonEntityDao;
 import hu.szakdolgozat.entity.CoreEntity;
 
-import javax.inject.Inject;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
-import javax.persistence.OneToMany;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
 public abstract class JpaCommonEntityDaoImpl<T extends CoreEntity> implements JpaCommonEntityDao<T> {
 
-    @Inject
     @PersistenceContext(unitName = "WebplazaPersistence")
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     @Override
-    public List<T> getAllEntity(T entity) {
+    public List<T> getAllEntity() {
         return entityManager.createQuery("SELECT e FROM " + getManagedClass().getSimpleName() + " e", getManagedClass()).getResultList();
     }
 

@@ -7,25 +7,25 @@ import hu.szakdolgozat.enums.ProductCategory;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "PRODUCT")
+@Table(name = "product")
 public class Product extends CoreEntity {
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "PRICE")
-    private int price;
+    @Column(name = "price", nullable = false)
+    private Double price;
 
-    @Column(name = "CURRENCY")
-    @Enumerated(EnumType.STRING)
-    private Currency currency;
-
-    @Column(name = "DESCRIPTION")
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "CATEGORY")
     @Enumerated(EnumType.STRING)
+    @Column(name = "category", nullable = false)
     private ProductCategory category;
+
+    @Column(name = "currency", nullable = false, columnDefinition = "varchar(3) default 'HUF'")
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
 
     public String getName() {
         return name;
@@ -35,20 +35,12 @@ public class Product extends CoreEntity {
         this.name = name;
     }
 
-    public int getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Double price) {
         this.price = price;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
     }
 
     public String getDescription() {
@@ -65,5 +57,13 @@ public class Product extends CoreEntity {
 
     public void setCategory(ProductCategory category) {
         this.category = category;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 }

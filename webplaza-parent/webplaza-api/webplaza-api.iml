@@ -6,6 +6,7 @@
         <setting name="validation-enabled" value="true" />
         <datasource-mapping>
           <factory-entry name="noname-a.xml@0" value="9e6fc654-1b8b-45bd-8336-2810798250ab" />
+          <factory-entry name="webplaza-api" value="85e9ee05-9f51-49c5-a1d1-c70b4f8c3c23" />
         </datasource-mapping>
         <naming-strategy-map />
       </configuration>

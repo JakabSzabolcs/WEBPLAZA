@@ -8,6 +8,9 @@
         <artifactId>webplaza-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+
+    <version>1.0-SNAPSHOT</version>
+
     <packaging>ear</packaging>
     <artifactId>webplaza-ear</artifactId>
 
@@ -21,13 +24,13 @@
         <dependency>
             <groupId>hu.szakdolgozat</groupId>
             <artifactId>webplaza-backend</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
             <type>ejb</type>
         </dependency>
         <dependency>
             <groupId>hu.szakdolgozat</groupId>
             <artifactId>webplaza-frontend</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
             <type>war</type>
         </dependency>
     </dependencies>

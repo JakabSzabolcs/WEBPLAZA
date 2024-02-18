@@ -5,30 +5,35 @@ import java.util.List;
 
 @Entity
 @Table(name = "SHOP")
-public class Shop extends Plaza {
+public class Shop extends CoreEntity {
 
-    @Column(name = "NAME")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "PLAZA")
     @ManyToOne
+    @JoinColumn(name = "plaza_id")
     private Plaza plaza;
 
-    @Column(name = "PRODUCTS")
-    @OneToMany
+    @OneToMany(mappedBy = "shop")
     private List<Product> products;
 
-    @Column(name = "RATING")
+    @Column(name = "rating")
     private int rating;
 
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Plaza getPlaza() {
+        return plaza;
+    }
+
+    public void setPlaza(Plaza plaza) {
+        this.plaza = plaza;
     }
 
     public List<Product> getProducts() {
@@ -45,13 +50,5 @@ public class Shop extends Plaza {
 
     public void setRating(int rating) {
         this.rating = rating;
-    }
-
-    public Plaza getPlaza() {
-        return plaza;
-    }
-
-    public void setPlaza(Plaza plaza) {
-        this.plaza = plaza;
     }
 }

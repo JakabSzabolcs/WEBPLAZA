@@ -6,5 +6,5 @@ import hu.szakdolgozat.service.UserService;
 import javax.ejb.Stateless;
 
 @Stateless
-public class UserServiceImpl extends JpaCommonEntityServiceImpl<User> {
+public class UserServiceImpl extends JpaCommonEntityServiceImpl<User> implements UserService {
 }

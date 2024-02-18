@@ -20,7 +20,7 @@
         <dependency>
             <groupId>hu.szakdolgozat</groupId>
             <artifactId>webplaza-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
@@ -33,11 +33,6 @@
             <version>5.0.17.RELEASE</version>
         </dependency>
 
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.2</version>
-        </dependency>
     </dependencies>
 
 </project>

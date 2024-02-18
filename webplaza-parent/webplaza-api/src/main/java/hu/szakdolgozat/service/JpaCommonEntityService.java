@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface JpaCommonEntityService<T extends CoreEntity> {
 
-    public void update(T entity);
+    void update(T entity);
 
-    public void delete(T entity);
+    void delete(T entity);
 
-    public T getById(T entityClass, Long id);
+    T getById(Long id);
 
-    public List<T> getAllEntity(T entityClass);
+    List<T> getAllEntity();
 }
