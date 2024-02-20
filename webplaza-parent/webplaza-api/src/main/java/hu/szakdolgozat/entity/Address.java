@@ -1,33 +1,23 @@
 package hu.szakdolgozat.entity;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.Embeddable;
 
-@Entity
-@Table(name = "address")
-public class Address extends CoreEntity {
-    @Column(name = "city", nullable = false)
+@Embeddable
+public class Address {
     private String city;
-
-    @Column(name = "street", nullable = false)
     private String street;
-
-    @Column(name = "house_number", nullable = false)
     private String houseNumber;
-
-    @Column(name = "zip_code", nullable = false)
-    private String zipCode;
+    private String postalCode;
 
     public Address() {
     }
 
-    public Address(String city, String street, String houseNumber, String zipCode) {
+    public Address(String city, String street, String houseNumber, String postalCode) {
         this.city = city;
         this.street = street;
         this.houseNumber = houseNumber;
-        this.zipCode = zipCode;
+        this.postalCode = postalCode;
     }
 
     public String getCity() {
@@ -55,10 +45,10 @@ public class Address extends CoreEntity {
     }
 
     public String getZipCode() {
-        return zipCode;
+        return postalCode;
     }
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public void setZipCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 }

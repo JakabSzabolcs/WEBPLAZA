@@ -4,17 +4,17 @@ import hu.szakdolgozat.enums.OrderState;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "order")
-public class Order extends CoreEntity {
+@Table(name = "orders")
+public class Order extends AbstractCoreEntity {
 
     @Column(name = "delivery_date")
     private LocalDateTime deliveryDate;
 
     @OneToOne
+    @MapsId
     @JoinColumn(name = "courier_id")
     private Courier courier;
 
@@ -22,12 +22,28 @@ public class Order extends CoreEntity {
     @JoinColumn(name = "customer_id")
     private User customer;
 
-    @OneToMany(mappedBy = "order")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "orders_product",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "products_id"))
     private List<Product> products;
 
-    @OneToOne
-    @JoinColumn(name = "delivery_address_id")
+
+    @Embedded
     private Address deliveryAddress;
+
+    @Column(name = "order_state", nullable = false, columnDefinition = "VARCHAR(255) DEFAULT 'WAITING'")
+    @Enumerated(EnumType.STRING)
+    private OrderState orderState;
+
+    public OrderState getOrderState() {
+        return orderState;
+    }
+
+    public void setOrderState(OrderState orderState) {
+        this.orderState = orderState;
+    }
 
     public LocalDateTime getDeliveryDate() {
         return deliveryDate;
@@ -45,14 +61,6 @@ public class Order extends CoreEntity {
         this.courier = courier;
     }
 
-    public User getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(User customer) {
-        this.customer = customer;
-    }
-
     public List<Product> getProducts() {
         return products;
     }
@@ -67,5 +75,13 @@ public class Order extends CoreEntity {
 
     public void setDeliveryAddress(Address deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
+    }
+
+    public User getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(User customer) {
+        this.customer = customer;
     }
 }

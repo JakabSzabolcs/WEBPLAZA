@@ -2,7 +2,7 @@ package hu.szakdolgozat.enums;
 
 public enum ProductCategory {
     FOOD,
-    BOOK,
+    BOOKS,
     CLOTHES,
     ELECTRONICS,
     OTHER

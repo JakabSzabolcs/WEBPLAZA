@@ -3,14 +3,14 @@ C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-api\src\main\java\hu\s
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-api\src\main\java\hu\szakdolgozat\enums\ProductCategory.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-api\src\main\java\hu\szakdolgozat\service\UserService.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-api\src\main\java\hu\szakdolgozat\service\ShopService.java
-C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-api\src\main\java\hu\szakdolgozat\service\AddressService.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-api\src\main\java\hu\szakdolgozat\entity\Shop.java
+C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-api\src\main\java\hu\szakdolgozat\entity\AbstractCoreEntity.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-api\src\main\java\hu\szakdolgozat\enums\OrderState.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-api\src\main\java\hu\szakdolgozat\entity\Plaza.java
-C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-api\src\main\java\hu\szakdolgozat\entity\CoreEntity.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-api\src\main\java\hu\szakdolgozat\enums\Currency.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-api\src\main\java\hu\szakdolgozat\service\JpaCommonEntityService.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-api\src\main\java\hu\szakdolgozat\service\ProductService.java
+C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-api\src\main\java\hu\szakdolgozat\entity\AbstractFelhasznalo.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-api\src\main\java\hu\szakdolgozat\service\PlazaService.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-api\src\main\java\hu\szakdolgozat\enums\UserType.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-api\src\main\java\hu\szakdolgozat\entity\Order.java

@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @MappedSuperclass
-public abstract class CoreEntity {
+public abstract class AbstractCoreEntity {
 
     @Id
     @Column(name = "ID")

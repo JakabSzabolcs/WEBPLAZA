@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "product")
-public class Product extends CoreEntity {
+public class Product extends AbstractCoreEntity {
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -22,6 +22,10 @@ public class Product extends CoreEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "category", nullable = false)
     private ProductCategory category;
+
+    @ManyToOne
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
 
     @Column(name = "currency", nullable = false, columnDefinition = "varchar(3) default 'HUF'")
     @Enumerated(EnumType.STRING)
@@ -65,5 +69,13 @@ public class Product extends CoreEntity {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
 }

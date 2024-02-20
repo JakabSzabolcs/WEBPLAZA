@@ -1,15 +1,13 @@
 package hu.szakdolgozat.dao.impl;
 
 import hu.szakdolgozat.dao.JpaCommonEntityDao;
-import hu.szakdolgozat.entity.CoreEntity;
+import hu.szakdolgozat.entity.AbstractCoreEntity;
 
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-public abstract class JpaCommonEntityDaoImpl<T extends CoreEntity> implements JpaCommonEntityDao<T> {
+public abstract class JpaCommonEntityDaoImpl<T extends AbstractCoreEntity> implements JpaCommonEntityDao<T> {
 
     @PersistenceContext(unitName = "WebplazaPersistence")
     protected EntityManager entityManager;

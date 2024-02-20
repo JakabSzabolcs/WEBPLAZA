@@ -5,19 +5,15 @@ import java.util.List;
 
 @Entity
 @Table(name = "plaza")
-public class Plaza extends CoreEntity {
+public class Plaza extends AbstractCoreEntity {
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToOne
-    @JoinColumn(name = "address_id")
+    @Embedded
     private Address address;
 
-    @OneToMany(mappedBy = "plaza")
-    private List<Courier> couriers;
-
-    @OneToMany(mappedBy = "plaza")
+    @OneToMany(mappedBy = "plaza", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Shop> shops;
 
     public String getName() {
@@ -34,14 +30,6 @@ public class Plaza extends CoreEntity {
 
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    public List<Courier> getCouriers() {
-        return couriers;
-    }
-
-    public void setCouriers(List<Courier> couriers) {
-        this.couriers = couriers;
     }
 
     public List<Shop> getShops() {

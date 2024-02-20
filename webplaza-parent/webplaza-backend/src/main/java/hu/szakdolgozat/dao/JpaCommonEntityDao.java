@@ -1,10 +1,10 @@
 package hu.szakdolgozat.dao;
 
-import hu.szakdolgozat.entity.CoreEntity;
+import hu.szakdolgozat.entity.AbstractCoreEntity;
 
 import java.util.List;
 
-public interface JpaCommonEntityDao<T extends CoreEntity> {
+public interface JpaCommonEntityDao<T extends AbstractCoreEntity> {
     List<T> getAllEntity();
 
     void add(T entity);
