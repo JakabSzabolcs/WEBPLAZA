@@ -6,14 +6,12 @@ hu\szakdolgozat\enums\ProductCategory.class
 hu\szakdolgozat\entity\AbstractFelhasznalo.class
 hu\szakdolgozat\entity\Plaza.class
 hu\szakdolgozat\entity\User.class
-hu\szakdolgozat\service\CourierService.class
 hu\szakdolgozat\entity\Product.class
 hu\szakdolgozat\service\ProductService.class
 hu\szakdolgozat\entity\AbstractCoreEntity.class
 hu\szakdolgozat\entity\Shop.class
 hu\szakdolgozat\enums\UserType.class
 hu\szakdolgozat\service\OrderService.class
-hu\szakdolgozat\entity\Courier.class
 hu\szakdolgozat\entity\Order.class
 hu\szakdolgozat\service\PlazaService.class
 hu\szakdolgozat\service\JpaCommonEntityService.class

@@ -19,6 +19,11 @@ public abstract class JpaCommonEntityServiceImpl<T extends AbstractCoreEntity> i
     }
 
     @Override
+    public void add(T entity) {
+        dao.add(entity);
+    }
+
+    @Override
     public void delete(T entity) {
         dao.remove(entity.getId());
     }

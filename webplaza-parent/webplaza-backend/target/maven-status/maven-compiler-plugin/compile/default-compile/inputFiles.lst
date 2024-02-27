@@ -1,8 +1,6 @@
-C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-backend\src\main\java\hu\szakdolgozat\dao\impl\CourierDaoImpl.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-backend\src\main\java\hu\szakdolgozat\service\impl\ProductServiceImpl.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-backend\src\main\java\hu\szakdolgozat\dao\impl\UserDaoImpl.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-backend\src\main\java\hu\szakdolgozat\dao\impl\JpaCommonEntityDaoImpl.java
-C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-backend\src\main\java\hu\szakdolgozat\dao\CourierDao.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-backend\src\main\java\hu\szakdolgozat\dao\ProductDao.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-backend\src\main\java\hu\szakdolgozat\dao\impl\PlazaDaoImpl.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-backend\src\main\java\hu\szakdolgozat\dao\PlazaDao.java
@@ -12,7 +10,6 @@ C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-backend\src\main\java\
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-backend\src\main\java\hu\szakdolgozat\service\impl\UserServiceImpl.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-backend\src\main\java\hu\szakdolgozat\dao\ShopDao.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-backend\src\main\java\hu\szakdolgozat\dao\OrderDao.java
-C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-backend\src\main\java\hu\szakdolgozat\service\impl\CourierServiceImpl.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-backend\src\main\java\hu\szakdolgozat\dao\impl\ShopDaoImpl.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-backend\src\main\java\hu\szakdolgozat\dao\impl\ProductDaoImpl.java
 C:\Egyetem\SZAKDOLGOZAT\WEBPLAZA\webplaza-parent\webplaza-backend\src\main\java\hu\szakdolgozat\service\impl\ShopServiceImpl.java

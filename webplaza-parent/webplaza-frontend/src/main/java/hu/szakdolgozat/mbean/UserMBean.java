@@ -18,37 +18,14 @@ import java.util.List;
 public class UserMBean implements Serializable {
 
     List<User> userList = new ArrayList<>();
-    List<Order> orderList = new ArrayList<>();
-    List<Product> prList = new ArrayList<>();
-    List<Plaza> plazasList = new ArrayList<>();
 
     @Inject
     private UserService userService;
 
-    @Inject
-    private OrderService orderService;
-
-    @Inject
-    private ProductService productService;
-
-    @Inject
-    private ShopService shopService;
-    @Inject
-    private PlazaService plazaService;
 
     @PostConstruct
     public void init() {
-        userList = userService.getAllEntity();
-        orderList = orderService.getAllEntity();
-        prList = new ArrayList<>();
-        plazasList = plazaService.getAllEntity();
-        for (var plaza : plazasList) {
-            for (var shop : shopService.getShopsByPlazaId(plaza.getId())) {
-                List<Product> products = shop.getProducts();
-                prList.addAll(products);
-            }
-        }
-        System.out.printf(prList.toString());
+
     }
 
     public List<User> getUserList() {

@@ -1,7 +1,5 @@
 package hu.szakdolgozat.entity;
 
-import hu.szakdolgozat.enums.UserType;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,6 +10,17 @@ public class User extends AbstractFelhasznalo {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Order> orders;
+
+    @OneToOne(mappedBy = "courier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Order currentOrder;
+
+    public Order getCurrentOrder() {
+        return currentOrder;
+    }
+
+    public void setCurrentOrder(Order currentOrder) {
+        this.currentOrder = currentOrder;
+    }
 
 
     public List<Order> getOrders() {

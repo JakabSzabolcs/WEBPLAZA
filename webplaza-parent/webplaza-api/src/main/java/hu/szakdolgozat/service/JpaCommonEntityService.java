@@ -8,6 +8,8 @@ public interface JpaCommonEntityService<T extends AbstractCoreEntity> {
 
     void update(T entity);
 
+    void add(T entity);
+
     void delete(T entity);
 
     T getById(Long id);

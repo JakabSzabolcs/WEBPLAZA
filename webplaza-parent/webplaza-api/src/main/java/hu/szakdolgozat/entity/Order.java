@@ -16,7 +16,7 @@ public class Order extends AbstractCoreEntity {
     @OneToOne
     @MapsId
     @JoinColumn(name = "courier_id")
-    private Courier courier;
+    private User courier;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -53,11 +53,11 @@ public class Order extends AbstractCoreEntity {
         this.deliveryDate = deliveryDate;
     }
 
-    public Courier getCourier() {
+    public User getCourier() {
         return courier;
     }
 
-    public void setCourier(Courier courier) {
+    public void setCourier(User courier) {
         this.courier = courier;
     }
 

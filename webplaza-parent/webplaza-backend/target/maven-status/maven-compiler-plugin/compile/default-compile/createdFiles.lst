@@ -1,6 +1,4 @@
 hu\szakdolgozat\dao\ProductDao.class
-hu\szakdolgozat\dao\impl\CourierDaoImpl.class
-hu\szakdolgozat\dao\CourierDao.class
 hu\szakdolgozat\service\impl\JpaCommonEntityServiceImpl.class
 hu\szakdolgozat\service\impl\ShopServiceImpl.class
 hu\szakdolgozat\dao\UserDao.class
@@ -12,7 +10,6 @@ hu\szakdolgozat\dao\PlazaDao.class
 hu\szakdolgozat\dao\impl\PlazaDaoImpl.class
 hu\szakdolgozat\service\impl\OrderServiceImpl.class
 hu\szakdolgozat\dao\OrderDao.class
-hu\szakdolgozat\service\impl\CourierServiceImpl.class
 hu\szakdolgozat\service\impl\UserServiceImpl.class
 hu\szakdolgozat\dao\impl\JpaCommonEntityDaoImpl.class
 hu\szakdolgozat\dao\impl\OrderDaoImpl.class

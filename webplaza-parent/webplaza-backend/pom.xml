@@ -32,6 +32,11 @@
             <artifactId>spring-security-crypto</artifactId>
             <version>5.0.17.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
 
     </dependencies>
 

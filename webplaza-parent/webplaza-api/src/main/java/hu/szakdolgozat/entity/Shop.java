@@ -7,21 +7,21 @@ import java.util.List;
 
 @Entity
 @Table(name = "SHOP")
-public class Shop extends AbstractFelhasznalo {
+public class Shop extends AbstractCoreEntity {
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Product> products;
 
     @ManyToOne
     @JoinColumn(name = "plaza_id")
     private Plaza plaza;
 
-    public Shop() {
-        super.setType(UserType.SHOP_OWNER);
-    }
+    @OneToOne
+    @JoinColumn(name = "owner_id")
+    private User user;
 
     public String getName() {
         return name;
@@ -45,5 +45,13 @@ public class Shop extends AbstractFelhasznalo {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

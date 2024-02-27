@@ -10,6 +10,9 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class AbstractFelhasznalo extends AbstractCoreEntity {
 
+    @Column(name = "fullname")
+    private String fullname;
+
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
@@ -53,5 +56,13 @@ public abstract class AbstractFelhasznalo extends AbstractCoreEntity {
 
     public void setType(UserType type) {
         this.type = type;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 }

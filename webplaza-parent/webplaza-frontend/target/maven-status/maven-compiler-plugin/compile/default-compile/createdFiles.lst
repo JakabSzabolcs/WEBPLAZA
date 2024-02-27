@@ -1,1 +1,4 @@
 hu\szakdolgozat\mbean\UserMBean.class
+hu\szakdolgozat\mbean\LoginMBean$1.class
+hu\szakdolgozat\mbean\LoginMBean.class
+hu\szakdolgozat\filter\AuthenticationFilter.class

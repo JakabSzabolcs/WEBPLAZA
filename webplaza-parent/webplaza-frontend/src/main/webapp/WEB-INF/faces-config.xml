@@ -7,14 +7,12 @@
 
     <application>
         <locale-config>
-            <default-locale>en</default-locale>
-            <supported-locale>hu</supported-locale>
+            <default-locale>hu</default-locale>
+            <supported-locale>en</supported-locale>
         </locale-config>
-
         <resource-bundle>
-            <base-name>hu.szakdolgozat</base-name>
+            <base-name>messages</base-name>
             <var>msg</var>
         </resource-bundle>
     </application>
-
 </faces-config>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html" xml:lang="en" lang="en">
+
+
+<h:head>
+    <title>Belépés</title>
+    <h:outputStylesheet library="css" name="styles.css"/>
+</h:head>
+
+
+<h:body>
+
+    <h:form id="loginForm">
+        <p:growl id="growl" showDetail="true"/>
+
+        <p:panel header="#{msg['loginPanel']}" styleClass="login-panel">
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel for="username" value="#{msg['username']}"/>
+                <p:inputText id="username" value="#{loginMBean.username}" required="false" label="username"/>
+
+                <h:outputLabel for="password" value="#{msg['password']}"/>
+                <p:password id="password" value="#{loginMBean.password}" required="false" label="password"/>
+
+                <f:facet name="footer">
+                    <p:commandButton icon="pi pi-sign-in" id="loginButton" value="#{msg['login']}" update="growl"
+                                     actionListener="#{loginMBean.login()}"/>
+                </f:facet>
+
+
+            </h:panelGrid>
+
+        </p:panel>
+        <p:panel style="margin: auto">
+            <h:panelGrid>
+                <h:outputLabel for="register" value="#{msg['regQuestion']}"/>
+                <p:commandButton icon="pi pi-sign-in" id="register" value="#{msg['register']}"
+                                 update=":registerDialogForm"
+                                 oncomplete="PF('registerDialog').show()"/>
+            </h:panelGrid>
+        </p:panel>
+    </h:form>
+
+    <p:dialog modal="true" id="registerDialog" widgetVar="registerDialog" closable="true" style="width: fit-content">
+        <h:form id="registerDialogForm">
+            <p:panelGrid columns="2" layout="grid">
+                <p:outputLabel for="Eusername" value="#{msg['fillusername']}"/>
+                <p:inputText id="Eusername" value="#{loginMBean.username}"/>
+                <p:outputLabel for="Epassword" value="#{msg['fillpassword']}"/>
+                <p:password id="Epassword" value="#{loginMBean.password}" toggleMask="true"
+                            redisplay="true"/>
+                <p:outputLabel for="EpasswordAgain" value="#{msg['passwordAgain']}"/>
+                <p:password id="EpasswordAgain" value="#{loginMBean.passwordAgain}" toggleMask="true"
+                            redisplay="true"/>
+<!--                <p:captcha label="Captcha"/>-->
+
+                <p:commandButton value="#{msg['register']}" validateClient="true"
+                                 update=":loginForm"
+                                 actionListener="#{loginMBean.register()}">
+                </p:commandButton>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+
+
+</h:body>
+</html>
+
+
