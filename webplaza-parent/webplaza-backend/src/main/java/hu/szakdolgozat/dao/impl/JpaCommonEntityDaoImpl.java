@@ -24,7 +24,7 @@ public abstract class JpaCommonEntityDaoImpl<T extends AbstractCoreEntity> imple
 
     @Override
     public void remove(Long id) {
-        entityManager.remove(getById(id));
+        entityManager.remove(entityManager.find(getManagedClass(), id));
     }
 
     @Override

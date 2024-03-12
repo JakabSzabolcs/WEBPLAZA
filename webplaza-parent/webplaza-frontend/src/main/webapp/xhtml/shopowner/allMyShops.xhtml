@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xml:lang="en" lang="en"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <title></title>
+
+</h:head>
+<h:body style="background: gainsboro">
+
+    <ui:include src="shopOwnerMenuBar.xhtml"/>
+
+    <h:form id="newShopForm">
+        <p:panel header="Új bolt felvétele."
+                 style="margin-bottom: 20px;width: 50%; margin-left: auto; margin-right: auto;text-align: center;">
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+            <p:panelGrid columns="2" style="width: 100%">
+                <h:outputLabel for="shopName" value="Bolt neve:"/>
+                <p:inputText id="shopName" value="#{allMyShopsMbean.newShopName}"/>
+                <h:outputLabel for="plaza" value="Pláza:"/>
+                <p:selectOneMenu id="plaza" value="#{allMyShopsMbean.newPlazaId}" style="width: 80%"
+                                 filter="true" filterMatchMode="contains" filterNormalize="true">
+                    <f:selectItem itemLabel="Válasszon plázát" itemValue="#{null}"/>
+                    <f:selectItems value="#{allMyShopsMbean.allPlazaList}" var="plaza"
+                                   itemLabel="#{plaza.name}" itemValue="#{plaza.id}"/>
+                    <p:ajax listener="#{allMyShopsMbean.setPlazaAddressById()}" update="plazaAddress"/>
+                </p:selectOneMenu>
+                <h:outputLabel for="plazaAddress" value="Pláza címe"/>
+                <p:inputText id="plazaAddress" value="#{allMyShopsMbean.newPlazaAddress}" disabled="true"
+                             style="width: 80%"/>
+                <p:commandButton value="Felvétel" action="#{allMyShopsMbean.saveShop()}" update=":shopsForm"/>
+            </p:panelGrid>
+
+        </p:panel>
+
+    </h:form>
+
+    <h:form id="shopsForm" style="padding: 25px">
+
+
+        <p:growl id="msgs" showDetail="true"/>
+
+
+        <div>
+            <div>
+                <p:dataTable id="shopTable" var="shop" value="#{allMyShopsMbean.shopList}" paginator="true"
+                             rows="10"
+                             selectionMode="single" emptyMessage="Nincs elérhető üzlet!" editable="true"
+                             selection="#{allMyShopsMbean.selectedShop}" rowKey="#{shop.id}">
+                    <p:ajax event="rowEdit" listener="#{allMyShopsMbean.onRowEdit}" update=":shopsForm:msgs"/>
+                    <p:ajax event="rowEditCancel" listener="#{allMyShopsMbean.onRowCancel}" update=":shopsForm:msgs"/>
+                    <p:ajax event="rowSelect" update="@form"/>
+                    <p:ajax event="rowUnselect" listener="#{allMyShopsMbean.init()}" update="@form"/>
+
+                    <p:column style="width:2rem">
+                        <p:rowToggler expandLabel="Termékek" collapseLabel="Bezárás"/>
+                    </p:column>
+
+                    <p:column headerText="ID">
+                        <h:outputText value="#{shop.id}"/>
+                    </p:column>
+
+                    <p:column headerText="Pláza" filterable="true" filterMatchMode="contains"
+                              filterBy="#{shop.plaza.name}">
+                        <h:outputText value="#{shop.plaza.name}"/>
+                    </p:column>
+
+                    <p:column headerText="Cím" filterable="true" filterMatchMode="contains"
+                              filterBy="#{shop.plaza.address}">
+                        <h:outputText value="#{shop.plaza.address}"/>
+                    </p:column>
+
+                    <p:column headerText="Megnevezés">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{shop.name}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{shop.name}" required="true"
+                                             requiredMessage="Mező kitöltése kötelező."/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column style="width:6rem">
+                        <p:rowEditor editTitle="Sor szerkesztése" cancelTitle="Mégse" saveTitle="Mentés"
+                                     update=":shopsForm"/>
+                    </p:column>
+
+                    <p:column>
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                         process="@this"
+                                         oncomplete="PF('confirmRemove').show()">
+                            <f:setPropertyActionListener value="#{shop}" target="#{allMyShopsMbean.selectedShop}"/>
+                        </p:commandButton>
+                    </p:column>
+                    <!-- Termékek megtekintése gomb ami elnavigál a productsUnderShop.xhtml  sessionMap-ba pedig belerakja ezt a Shop-ot-->
+                    <p:column>
+                        <p:commandButton class="ui-button-success rounded-button" icon="pi pi-eye"
+                                         process="@this"
+                                         action="#{allMyShopsMbean.viewProductsUnderShop(shop)}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </div>
+        </div>
+
+
+    </h:form>
+
+    <p:dialog modal="true" id="confirmRemove" widgetVar="confirmRemove" closable="true">
+        <h:form id="confirmRemoveForm" style="width: fit-content">
+            <p:outputLabel value="#{msg['confirmDelete']}"/>
+            <br/>
+            <p:commandButton value="#{msg['yes']}" action="#{allMyShopsMbean.deleteShop()}" style="margin-right:10px;"
+                             oncomplete="PF('confirmRemove').hide()" update=":shopsForm"/>
+            <p:commandButton value="#{msg['no']}" onclick="PF('confirmRemove').hide()" style="margin:10px;"/>
+        </h:form>
+    </p:dialog>
+
+</h:body>
+</html>

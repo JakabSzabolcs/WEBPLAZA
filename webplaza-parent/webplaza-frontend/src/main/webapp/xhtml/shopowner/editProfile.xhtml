@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xml:lang="en" lang="en"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>Admin - Users</title>
+    <h:outputStylesheet library="css" name="styles.css"/>
+</h:head>
+<h:body style="background: gainsboro">
+
+    <ui:include src="shopOwnerMenuBar.xhtml"/>
+
+    <!-- edit profile form panel -->
+    <h:form id="editProfileForm" style="margin-top: 50px; margin-left: 50px; margin-right: 50px">
+
+
+
+        <p:panel header="Profilom szerkesztése" style="font-size: 20px; font-weight: bold; text-align: center">
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+            <p:panelGrid columns="2" style="width: 100%">
+                <h:outputText value="Felhasználó név: " style="font-size: 18px; font-weight: bold"/>
+                <p:inputText value="#{editProfileMBean.loggedInUser.username}"/>
+
+                <h:outputText value="Jelenlegi Jelszó: " style="font-size: 18px; font-weight: bold"/>
+                <p:password value="#{editProfileMBean.oldPassWord}"/>
+
+                <h:outputText value="Új Jelszó: " style="font-size: 18px; font-weight: bold"/>
+                <p:password value="#{editProfileMBean.newPassWord}"/>
+                <h:outputText value="Új Jelszó Újra: " style="font-size: 18px; font-weight: bold"/>
+                <p:password value="#{editProfileMBean.newPassWordAgain}"/>
+
+
+                <h:outputText value="Full Name: " style="font-size: 18px; font-weight: bold"/>
+                <p:inputText value="#{editProfileMBean.loggedInUser.fullname}"/>
+                <h:outputText value="Telefonszám: " style="font-size: 18px; font-weight: bold"/>
+                <p:inputText value="#{editProfileMBean.loggedInUser.phoneNumber}" mask="99 99 999 9999"/>
+            </p:panelGrid>
+            <p:commandButton value="Mentés" action="#{editProfileMBean.saveEditProfile()}" update="messages"
+                             style="margin-top: 20px; margin-left: 40%; width: 20%"/>
+        </p:panel>
+    </h:form>
+
+
+</h:body>
+</html>

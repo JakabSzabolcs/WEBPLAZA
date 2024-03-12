@@ -39,14 +39,14 @@ public class LoginMBean implements Serializable {
     }
 
     public void login() {
-        User loggedInUser = userService.authenticate(username, password);
+        loggedInUser = userService.authenticate(username, password);
         if (loggedInUser != null) {
             String redirectUrl = "login.xhtml";
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("loggedInUser", loggedInUser);
 
             switch (loggedInUser.getType()) {
                 case ADMIN:
-                    redirectUrl = "admin/adminUsers.xhtml";
+                    redirectUrl = "admin/adminMenubar.xhtml";
                     break;
                 case CUSTOMER:
                     redirectUrl = "customer/customerWelcome.xhtml";
@@ -55,7 +55,7 @@ public class LoginMBean implements Serializable {
                     redirectUrl = "courier/courierWelcome.xhtml";
                     break;
                 case SHOP_OWNER:
-                    redirectUrl = "shopowner/shopOwnerWelcome.xhtml";
+                    redirectUrl = "shopowner/shopOwnerPlazas.xhtml";
                     break;
             }
 

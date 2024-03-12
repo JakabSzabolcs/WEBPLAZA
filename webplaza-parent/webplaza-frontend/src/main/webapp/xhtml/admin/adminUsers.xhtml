@@ -1,17 +1,105 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html" xml:lang="en" lang="en">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xml:lang="en" lang="en"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
-    <title>Admin - Users</title>
+
+
+    <title>Adminisztrációs felület - Felhasználók</title>
+
+    <!-- CSS -->
     <h:outputStylesheet library="css" name="styles.css"/>
+
 </h:head>
+
 <h:body>
 
-    <h:form id="adminForm">
+    <ui:include src="/xhtml/admin/adminMenubar.xhtml"/>
 
-        <h:outputText value="Adminként történt belépés" styleClass="adminText"/>
+    <h:form id="adminForm">
+        <p:growl id="growl" showDetail="true" globalOnly="true"/>
+        <p:toolbar>
+            <p:toolbarGroup>
+                <p:commandButton icon="pi pi-plus" value="#{msg['newButton']}"
+                                 actionListener="#{adminUsersMBean.initNew()}"
+                                 update="@form" style="margin: 5px"
+                                 oncomplete="PF('editDialog').show()"/>
+
+                <p:commandButton icon="pi pi-pencil" value="#{msg['editButton']}" update=":editDialog"
+                                 oncomplete="PF('editDialog').show()" style="margin: 5px"
+                                 rendered="#{adminUsersMBean.selectedUser.id != null}"/>
+
+                <p:commandButton icon="pi pi-trash" value="#{msg['deleteButton']}" update=":confirmRemove"
+                                 oncomplete="PF('confirmRemove').show()" style="margin: 5px"
+                                 rendered="#{adminUsersMBean.selectedUser.id != null}"/>
+            </p:toolbarGroup>
+
+        </p:toolbar>
+
+        <p:dataTable id="userTable" value="#{adminUsersMBean.userList}" var="user"
+                     paginator="true" selectionMode="single"
+                     selection="#{adminUsersMBean.selectedUser}"
+                     rows="5"
+                     rowKey="#{user.id}"
+                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                     rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+
+            <p:ajax event="rowSelect" update="@form"/>
+            <p:ajax event="rowUnselect" listener="#{adminUsersMBean.init()}" update="@form"/>
+            <p:column headerText="#{msg['userIdColumn']}">
+                <h:outputText value="#{user.id}"/>
+            </p:column>
+            <p:column headerText="#{msg['userNameColumn']}">
+                <h:outputText value="#{user.username}"/>
+            </p:column>
+            <p:column headerText="#{msg['creationDateColumn']}">
+                <h:outputText value="#{user.creationDate}"/>
+            </p:column>
+            <p:column headerText="#{msg['role']}">
+                <h:outputText value="#{user.type}"/>
+            </p:column>
+        </p:dataTable>
     </h:form>
 
+    <p:dialog modal="true" id="editDialog" widgetVar="editDialog" closable="true">
+        <h:form id="editForm" style="width: fit-content">
+            <p:panelGrid columns="2">
+                <p:outputLabel for="username" value="Felhasználónév:"/>
+                <p:inputText id="username" value="#{adminUsersMBean.selectedUser.username}" required="true"
+                             requiredMessage="Felhasználónév kitöltése kötelező!"/>
+                <p:outputLabel for="password" value="Jelszó:"/>
+                <p:inputText id="password" value="#{adminUsersMBean.password}" required="true"
+                             requiredMessage="Jelszó kitöltése kötelező!"/>
+                <p:outputLabel for="passwordAgain" value="Jelszó újra:"/>
+                <p:inputText id="passwordAgain" value="#{adminUsersMBean.passwordAgain}" required="true"
+                             requiredMessage="Jelszó újra mező kitöltése kötelező!"/>
+                <p:outputLabel for="type" value="Szerepkör:"/>
+                <p:selectOneMenu id="type" value="#{adminUsersMBean.selectedUser.type}">
+                    <f:selectItem itemLabel="Válasszon:" itemValue=""/>
+                    <f:selectItems value="#{adminUsersMBean.userRoleList}" var="role" itemLabel="#{role.name()}"
+                                   itemValue="#{role}" required="true"
+                                   requiredMessage="Szerepkör kiválasztása kötelező!"/>
+                </p:selectOneMenu>
+            </p:panelGrid>
+            <p:commandButton value="Mentés" action="#{adminUsersMBean.save()}"
+                             oncomplete="PF('editDialog').hide()" update=":adminForm"/>
+            <p:commandButton value="Mégse" onclick="PF('editDialog').hide()"/>
+        </h:form>
+    </p:dialog>
+
+    <p:dialog modal="true" id="confirmRemove" widgetVar="confirmRemove" closable="true">
+        <h:form id="confirmRemoveForm" style="width: fit-content">
+            <p:outputLabel value="#{msg['confirmDelete']}"/>
+            <br/>
+            <p:commandButton value="#{msg['yes']}" action="#{adminUsersMBean.remove()}" style="margin-right:10px;"
+                             oncomplete="PF('confirmRemove').hide()" update=":adminForm"/>
+            <p:commandButton value="#{msg['no']}" onclick="PF('confirmRemove').hide()" style="margin:10px;"/>
+        </h:form>
+    </p:dialog>
 
 </h:body>
 </html>

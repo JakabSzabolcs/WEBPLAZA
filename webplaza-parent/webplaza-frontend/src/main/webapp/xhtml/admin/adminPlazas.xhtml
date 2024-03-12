@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xml:lang="en" lang="en"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <meta charset="UTF-8"/>
+    <title>Adminisztrációs felület - Plázák</title>
+
+    <!-- CSS -->
+    <h:outputStylesheet library="css" name="styles.css"/>
+
+</h:head>
+
+<h:body>
+
+    <ui:include src="/xhtml/admin/adminMenubar.xhtml"/>
+
+    <h:form id="adminForm">
+        <p:growl id="growl" showDetail="true" globalOnly="true"/>
+        <p:toolbar>
+            <p:toolbarGroup>
+                <p:commandButton icon="pi pi-plus" value="#{msg['newButton']}" styleClass="myButton" style="margin: 5px"
+                                 actionListener="#{adminPlazasMBean.initNew()}"
+                                 update="@form"
+                                 oncomplete="PF('editDialog').show()"/>
+
+                <p:commandButton icon="pi pi-pencil" value="#{msg['editButton']}" update=":editDialog"
+                                 style="margin: 5px"
+                                 oncomplete="PF('editDialog').show();"
+                                 rendered="#{adminPlazasMBean.selectedPlaza.id != null}"/>
+
+                <p:commandButton icon="pi pi-trash" value="#{msg['deleteButton']}" update=":confirmRemove"
+                                 style="margin: 5px"
+                                 oncomplete="PF('confirmRemove').show()"
+                                 rendered="#{adminPlazasMBean.selectedPlaza.id != null}"/>
+            </p:toolbarGroup>
+
+        </p:toolbar>
+
+        <p:dataTable id="userTable" value="#{adminPlazasMBean.plazaList}" var="plaza"
+                     paginator="true" selectionMode="single"
+                     selection="#{adminPlazasMBean.selectedPlaza}"
+                     rowKey="#{plaza.id}"
+                     rows="5"
+                     paginatorPosition="bottom"
+                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                     rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+            <p:ajax event="rowSelect" update="@form"/>
+            <p:ajax event="rowUnselect" listener="#{adminPlazasMBean.init()}" update="@form"/>
+            <p:column>
+                <p:rowToggler expandLabel="+" collapseLabel="-">
+                    <h:outputText value=" "/>
+                </p:rowToggler>
+            </p:column>
+
+            <p:column headerText="Pláza megnevezése">
+                <h:outputText value="#{plaza.name}"/>
+            </p:column>
+
+            <p:column headerText="Cím" sortBy="#{plaza.address.toString()}">
+                <h:outputText value="#{plaza.address.toString()}"/>
+            </p:column>
+            <p:rowExpansion>
+                <p:dataTable value="#{plaza.shops}" var="shop" emptyMessage="Nem található bolt.">
+                    <p:column headerText="Boltok">
+                        <h:outputText value="#{shop.name}"/>
+                    </p:column>
+                    <p:column headerText="Tulajdonos neve - telefonszáma">
+                        <h:outputText value="#{shop.user.fullname} - #{shop.user.phoneNumber}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:rowExpansion>
+
+
+        </p:dataTable>
+
+    </h:form>
+
+    <p:dialog modal="true" id="editDialog" widgetVar="editDialog" closable="true">
+        <h:form id="editFormData" style="width: fit-content;padding: inherit;">
+            <h1>Pláza adatai</h1>
+            <br/>
+            <p:panelGrid columns="2">
+
+                <p:outputLabel for="name" value="Név:"/>
+                <p:inputText id="name" value="#{adminPlazasMBean.selectedPlaza.name}" required="true"
+                             requiredMessage="Név kitöltése kötelező!"/>
+
+                <p:outputLabel for="zip" value="Irányítószám:"/>
+                <p:inputText id="zip" value="#{adminPlazasMBean.address.postalCode}" required="true"
+                             requiredMessage="Irányítószám kitöltése kötelező!"/>
+
+                <p:outputLabel for="city" value="Város:"/>
+                <p:inputText id="city" value="#{adminPlazasMBean.address.city}" required="true"
+                             requiredMessage="Város kitöltése kötelező!"/>
+
+                <p:outputLabel for="street" value="Utca:"/>
+                <p:inputText id="street" value="#{adminPlazasMBean.address.street}" required="true"
+                             requiredMessage="Utca kitöltése kötelező!"/>
+
+                <p:outputLabel for="number" value="Házszám:"/>
+                <p:inputText id="number" value="#{adminPlazasMBean.address.houseNumber}" required="true"
+                             requiredMessage="Házszám kitöltése kötelező!"/>
+
+
+                <p:commandButton value="Mentés" action="#{adminPlazasMBean.save()}" style="margin: 5px"
+                                 oncomplete="PF('editDialog').hide()" update=":adminForm"/>
+                <p:commandButton value="Mégse" onclick="PF('editDialog').hide()"/>
+            </p:panelGrid>
+
+        </h:form>
+    </p:dialog>
+
+    <p:dialog modal="true" id="confirmRemove" widgetVar="confirmRemove" closable="true">
+        <h:form id="confirmRemoveForm" style="width: fit-content;padding: inherit;">
+            <p:outputLabel value="#{msg['confirmDelete']}"/>
+            <br/>
+            <p:commandButton value="#{msg['yes']}" action="#{adminPlazasMBean.remove()}"
+                             oncomplete="PF('confirmRemove').hide()" update=":adminForm"/>
+            <p:commandButton value="#{msg['no']}" onclick="PF('confirmRemove').hide()" style="margin:10px;"/>
+        </h:form>
+    </p:dialog>
+
+</h:body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xml:lang="en" lang="en"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+
+
+    <title> Termékek </title>
+
+    <!-- CSS -->
+    <h:outputStylesheet library="css" name="styles.css"/>
+
+</h:head>
+
+<h:body>
+
+    <ui:include src="shopOwnerMenuBar.xhtml"/>
+
+    <h:form id="shopProducts">
+        <p:growl id="growl" showDetail="true" globalOnly="true"/>
+
+
+        <p:toolbar>
+            <p:toolbarGroup>
+                <p:commandButton icon="pi pi-plus" value="#{msg['newButton']}"
+                                 actionListener="#{productsUnderShopMBean.initNew()}"
+                                 update="@form" style="margin: 5px"
+                                 oncomplete="PF('newDialog').show()"/>
+
+                <p:commandButton icon="pi pi-pencil" value="#{msg['editButton']}" update=":editDialog"
+                                 oncomplete="PF('editDialog').show()" style="margin: 5px"
+                                 rendered="#{productsUnderShopMBean.selectedProduct.id != null}"/>
+
+                <p:commandButton icon="pi pi-trash" value="#{msg['deleteButton']}" update=":confirmRemove"
+                                 oncomplete="PF('confirmRemove').show()" style="margin: 5px"
+                                 rendered="#{productsUnderShopMBean.selectedProduct.id != null}"/>
+            </p:toolbarGroup>
+
+        </p:toolbar>
+
+        <!-- jelenlegi bolt: #{productsUnderShopMBean.shop.name} -->
+        <p:outputLabel value="Jelenlegi bolt: #{productsUnderShopMBean.currentShop.name}" style="margin: 10px"/>
+
+
+        <p:dataTable id="productTable" value="#{productsUnderShopMBean.products}" var="product"
+                     paginator="true" selectionMode="single"
+                     selection="#{productsUnderShopMBean.selectedProduct}"
+                     rows="5"
+                     rowKey="#{product.id}"
+                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                     rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+
+            <p:ajax event="rowSelect" update="@form"/>
+            <p:ajax event="rowUnselect" listener="#{productsUnderShopMBean.init()}" update="@form"/>
+            <p:column headerText="ID">
+                <h:outputText value="#{product.id}"/>
+            </p:column>
+            <p:column headerText="Megnevezés">
+                <h:outputText value="#{product.name}"/>
+            </p:column>
+            <p:column headerText="Ár">
+                <h:outputText value="#{product.price}"/>
+            </p:column>
+            <p:column headerText="Kategória">
+                <h:outputText value="#{product.category}"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+
+    <!-- new dialog -->
+    <p:dialog modal="true" id="newDialog" widgetVar="newDialog" closable="true">
+        <h:form id="newForm" style="width: fit-content">
+            <p:panelGrid columns="2">
+                <p:outputLabel for="name" value="Megnevezés"/>
+                <p:inputText id="name" value="#{productsUnderShopMBean.selectedProduct.name}"/>
+                <p:outputLabel for="price" value="Ár"/>
+                <p:inputText id="price" value="#{productsUnderShopMBean.selectedProduct.price}"/>
+                <p:outputLabel for="category" value="Kategória"/>
+                <p:inputText id="category" value="#{productsUnderShopMBean.selectedProduct.category}"/>
+            </p:panelGrid>
+            <p:commandButton value="Mentés" action="#{productsUnderShopMBean.saveProduct()}"
+                             oncomplete="PF('newDialog').hide()" update=":adminForm"/>
+            <p:commandButton value="Mégse" onclick="PF('newDialog').hide()"/>
+        </h:form>
+    </p:dialog>
+
+    <p:dialog modal="true" id="editDialog" widgetVar="editDialog" closable="true">
+        <h:form id="editForm" style="width: fit-content">
+            <p:panelGrid columns="2">
+
+            </p:panelGrid>
+            <p:commandButton value="Mentés" action="#{productsUnderShopMBean.updateProduct()}"
+                             oncomplete="PF('editDialog').hide()" update=":adminForm"/>
+            <p:commandButton value="Mégse" onclick="PF('editDialog').hide()"/>
+        </h:form>
+    </p:dialog>
+
+    <p:dialog modal="true" id="confirmRemove" widgetVar="confirmRemove" closable="true">
+        <h:form id="confirmRemoveForm" style="width: fit-content">
+            <p:outputLabel value="#{msg['confirmDelete']}"/>
+            <br/>
+            <p:commandButton value="#{msg['yes']}" action="#{productsUnderShopMBean.deleteProduct()}"
+                             style="margin-right:10px;"
+                             oncomplete="PF('confirmRemove').hide()" update=":adminForm"/>
+            <p:commandButton value="#{msg['no']}" onclick="PF('confirmRemove').hide()" style="margin:10px;"/>
+        </h:form>
+    </p:dialog>
+
+</h:body>
+</html>

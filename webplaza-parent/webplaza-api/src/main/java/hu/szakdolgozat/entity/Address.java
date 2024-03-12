@@ -13,11 +13,12 @@ public class Address {
     public Address() {
     }
 
-    public Address(String city, String street, String houseNumber, String postalCode) {
-        this.city = city;
-        this.street = street;
-        this.houseNumber = houseNumber;
-        this.postalCode = postalCode;
+    @Override
+    public String toString() {
+        if (city == null || street == null || houseNumber == null || postalCode == null) {
+            return "";
+        }
+        return postalCode + ", " + city + " " + street + " utca " + houseNumber + ". ";
     }
 
     public String getCity() {
@@ -44,11 +45,11 @@ public class Address {
         this.houseNumber = houseNumber;
     }
 
-    public String getZipCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setZipCode(String postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 }

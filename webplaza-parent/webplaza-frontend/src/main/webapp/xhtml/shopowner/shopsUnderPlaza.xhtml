@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xml:lang="en" lang="en"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <title>Facelet Title</title>
+
+</h:head>
+<h:body style="background: gainsboro">
+
+    <ui:include src="shopOwnerMenuBar.xhtml"/>
+    <h:form id="shopsForm" style="padding: 25px">
+
+
+        <p:accordionPanel header="Új bolt felvétele a(z) #{shopsUnderPlaza.currentPlaza.name} alá."
+                          style="margin-bottom: 20px;width: 50%; margin-left: auto; margin-right: auto;text-align: center;"
+                          rendered="#{shopsUnderPlaza.currentPlaza != null}">
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+            <p:panelGrid columns="2" style="width: 100%">
+                <h:outputLabel for="shopName" value="Bolt neve:"/>
+                <p:inputText id="shopName" value="#{shopsUnderPlaza.newShopName}"/>
+                <p:commandButton value="Felvétel" action="#{shopsUnderPlaza.saveShop()}" update=":shopsForm"/>
+            </p:panelGrid>
+
+        </p:accordionPanel>
+
+        <p:growl id="msgs" showDetail="true"/>
+
+        <p:toolbar>
+            <p:toolbarGroup align="right">
+                <p:commandButton icon="pi pi-trash" value="#{msg['deleteButton']}" update=":confirmRemove"
+                                 oncomplete="PF('confirmRemove').show()" style="margin: 5px"
+                                 disabled="#{shopsUnderPlaza.selectedShop.id == null}"/>
+            </p:toolbarGroup>
+        </p:toolbar>
+
+        <p:dataTable id="shopTable" var="shop" value="#{shopsUnderPlaza.shopList}" paginator="true" rows="10"
+                     selectionMode="single" emptyMessage="Nincs elérhető üzlet!" editable="true"
+                     selection="#{shopsUnderPlaza.selectedShop}" rowKey="#{shop.id}">
+            <p:ajax event="rowEdit" listener="#{shopsUnderPlaza.onRowEdit}" update=":shopsForm:msgs"/>
+            <p:ajax event="rowEditCancel" listener="#{shopsUnderPlaza.onRowCancel}" update=":shopsForm:msgs"/>
+
+
+            <p:column headerText="ID">
+                <h:outputText value="#{shop.id}"/>
+            </p:column>
+
+            <p:column headerText="Megnevezés">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{shop.name}"/>
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{shop.name}" required="true" requiredMessage="Mező kitöltése kötelező."/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column style="width:6rem">
+                <p:rowEditor editTitle="Sor szerkesztése" cancelTitle="Mégse" saveTitle="Mentés" update=":shopsForm"/>
+            </p:column>
+
+        </p:dataTable>
+
+
+    </h:form>
+
+
+    <p:dialog modal="true" id="confirmRemove" widgetVar="confirmRemove" closable="true">
+        <h:form id="confirmRemoveForm" style="width: fit-content">
+            <p:outputLabel value="#{msg['confirmDelete']}"/>
+            <br/>
+            <p:commandButton value="#{msg['yes']}" action="#{shopsUnderPlaza.deleteShop()}" style="margin-right:10px;"
+                             oncomplete="PF('confirmRemove').hide()" update=":shopsForm"/>
+            <p:commandButton value="#{msg['no']}" onclick="PF('confirmRemove').hide()" style="margin:10px;"/>
+        </h:form>
+    </p:dialog>
+
+
+</h:body>
+</html>

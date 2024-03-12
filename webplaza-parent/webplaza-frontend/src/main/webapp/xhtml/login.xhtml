@@ -8,13 +8,12 @@
 
 <h:head>
     <title>Belépés</title>
-    <h:outputStylesheet library="css" name="styles.css"/>
 </h:head>
 
 
-<h:body>
+<h:body style="text-align: center">
 
-    <h:form id="loginForm">
+    <h:form id="loginForm" style="display: inline-flex;text-align: center; padding: 25px">
         <p:growl id="growl" showDetail="true"/>
 
         <p:panel header="#{msg['loginPanel']}" styleClass="login-panel">
@@ -34,7 +33,7 @@
             </h:panelGrid>
 
         </p:panel>
-        <p:panel style="margin: auto">
+        <p:panel style="margin: auto auto auto 50px" >
             <h:panelGrid>
                 <h:outputLabel for="register" value="#{msg['regQuestion']}"/>
                 <p:commandButton icon="pi pi-sign-in" id="register" value="#{msg['register']}"
