@@ -31,6 +31,10 @@ public class ShopServiceImpl extends JpaCommonEntityServiceImpl<Shop> implements
         return shopDao.getShopsByPlazaAndOwner(plaza, owner);
     }
 
+    @Override
+    public void remove(Shop shop) {
+        shopDao.remove(shop);
+    }
 
 
 }

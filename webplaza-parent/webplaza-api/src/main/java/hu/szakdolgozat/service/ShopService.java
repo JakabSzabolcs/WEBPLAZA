@@ -15,5 +15,7 @@ public interface ShopService extends JpaCommonEntityService<Shop>{
 
     List<Shop> getShopsByPlazaAndOwner(Plaza plaza, User owner);
 
+    void remove(Shop shop);
+
 
 }

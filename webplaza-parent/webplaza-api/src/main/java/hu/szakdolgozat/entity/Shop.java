@@ -1,7 +1,5 @@
 package hu.szakdolgozat.entity;
 
-import hu.szakdolgozat.enums.UserType;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,7 +10,10 @@ public class Shop extends AbstractCoreEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Column(name = "description")
+    private String description;
+
+    @OneToMany(mappedBy = "shop", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Product> products;
 
     @ManyToOne
@@ -53,5 +54,13 @@ public class Shop extends AbstractCoreEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

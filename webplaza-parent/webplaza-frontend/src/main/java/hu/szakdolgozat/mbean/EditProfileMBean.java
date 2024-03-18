@@ -12,6 +12,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Date;
 
 @Named
 @ViewScoped
@@ -40,8 +41,10 @@ public class EditProfileMBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hiba", "Nem megfelő jelszót adott meg!"));
             return;
         }
-
-        loggedInUser.setPassword(newPassWord);
+        loggedInUser.setModificationDate(new Date());
+        if (!newPassWord.isEmpty()) {
+            loggedInUser.setPassword(newPassWord);
+        }
         userService.update(loggedInUser);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sikeres módosítás", "A profil módosítása sikeresen megtörtént!"));
 

@@ -13,7 +13,7 @@ public class Plaza extends AbstractCoreEntity {
     @Embedded
     private Address address;
 
-    @OneToMany(mappedBy = "plaza", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "plaza", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Shop> shops;
 
     public String getName() {

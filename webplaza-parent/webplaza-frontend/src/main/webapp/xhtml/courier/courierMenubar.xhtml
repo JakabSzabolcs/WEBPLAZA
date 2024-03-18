@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xml:lang="en" lang="en"
->
+      xml:lang="en" lang="en">
+
 
 <h:head>
-    <title>Facelet Title</title>
+    <title>Futár</title>
 
     <style>
         .ui-menubar {
@@ -26,19 +26,20 @@
 </h:head>
 
 <h:body>
+    <!-- menubar for all pages -->
 
     <h:form>
 
         <p:menubar>
 
+                <p:menuitem value="Plázák" url="courierPlazas.xhtml" icon="ui-icon-document"/>
 
-            <p:menuitem value="Boltjaim" url="allMyShops.xhtml" icon="ui-icon-contact"/>
             <!--        <p:submenu label="Nyelv választás"  icon="ui-icon-globe">-->
             <!--            <p:menuitem value="Magyar" action="#{languageBean.changeLanguage('hu')}" icon="ui-icon-flag" />-->
             <!--            <p:menuitem value="English" action="#{languageBean.changeLanguage('en')}" icon="ui-icon-flag" />-->
             <!--        </p:submenu>-->
 
-            <p:menuitem value="Profil" url="editProfile.xhtml" icon="ui-icon-person"/>
+            <p:menuitem value="Profil" url="editProfile.xhtml" icon="ui-icon-contact"/>
             <p:menuitem value="Kijelentkezés" actionListener="#{loginMBean.logout()}"/>
 
         </p:menubar>

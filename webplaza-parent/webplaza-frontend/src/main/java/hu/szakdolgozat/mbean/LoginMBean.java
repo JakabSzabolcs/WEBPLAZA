@@ -52,10 +52,10 @@ public class LoginMBean implements Serializable {
                     redirectUrl = "customer/customerWelcome.xhtml";
                     break;
                 case COURIER:
-                    redirectUrl = "courier/courierWelcome.xhtml";
+                    redirectUrl = "courier/courierPlazas.xhtml";
                     break;
                 case SHOP_OWNER:
-                    redirectUrl = "shopowner/shopOwnerPlazas.xhtml";
+                    redirectUrl = "shopowner/shopOwnerMenuBar.xhtml";
                     break;
             }
 

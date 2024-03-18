@@ -5,6 +5,7 @@ import hu.szakdolgozat.entity.AbstractCoreEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Date;
 import java.util.List;
 
 public abstract class JpaCommonEntityDaoImpl<T extends AbstractCoreEntity> implements JpaCommonEntityDao<T> {
@@ -19,6 +20,7 @@ public abstract class JpaCommonEntityDaoImpl<T extends AbstractCoreEntity> imple
 
     @Override
     public void add(T entity) {
+        entity.setModificationDate(new Date());
         entityManager.persist(entity);
     }
 
@@ -34,6 +36,7 @@ public abstract class JpaCommonEntityDaoImpl<T extends AbstractCoreEntity> imple
 
     @Override
     public void update(T entity) {
+        entity.setModificationDate(new Date());
         entityManager.merge(entity);
     }
 

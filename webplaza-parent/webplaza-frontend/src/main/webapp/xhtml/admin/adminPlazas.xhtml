@@ -8,7 +8,6 @@
     <meta charset="UTF-8"/>
     <title>Adminisztrációs felület - Plázák</title>
 
-    <!-- CSS -->
     <h:outputStylesheet library="css" name="styles.css"/>
 
 </h:head>
@@ -64,7 +63,7 @@
                 <h:outputText value="#{plaza.address.toString()}"/>
             </p:column>
             <p:rowExpansion>
-                <p:dataTable value="#{plaza.shops}" var="shop" emptyMessage="Nem található bolt.">
+                <p:dataTable value="#{adminPlazasMBean.plazaIdShopsMap.get(plaza.id)}" var="shop" emptyMessage="Nem található bolt.">
                     <p:column headerText="Boltok">
                         <h:outputText value="#{shop.name}"/>
                     </p:column>

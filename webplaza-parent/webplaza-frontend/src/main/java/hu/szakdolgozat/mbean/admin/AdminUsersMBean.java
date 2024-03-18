@@ -2,7 +2,6 @@ package hu.szakdolgozat.mbean.admin;
 
 import hu.szakdolgozat.entity.User;
 import hu.szakdolgozat.enums.UserType;
-import hu.szakdolgozat.mbean.LoginMBean;
 import hu.szakdolgozat.service.UserService;
 
 import javax.annotation.PostConstruct;
@@ -13,7 +12,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -40,7 +38,7 @@ public class AdminUsersMBean implements Serializable {
     }
 
     public void load() {
-        userRoleList = UserType.getAll();
+        userRoleList = List.of(UserType.values());
         userList = userService.getAllEntity();
     }
 
@@ -55,7 +53,7 @@ public class AdminUsersMBean implements Serializable {
             errorMessage("A jelszavak nem egyeznek");
             return;
         }
-        if(selectedUser.getType() == null){
+        if (selectedUser.getType() == null) {
             errorMessage("Válasszon felhasználó típust");
             return;
         }

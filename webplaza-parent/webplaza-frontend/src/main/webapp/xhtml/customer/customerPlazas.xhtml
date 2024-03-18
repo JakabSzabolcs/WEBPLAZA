@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xml:lang="en" lang="en"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Plázák</title>
+    <h:outputStylesheet library="css" name="styles.css"/>
+</h:head>
+<h:body style="background: linear-gradient(68deg, #ded4e8, #e8ba40);
+    font-family: cursive;
+    color: #C7395F;">
+
+    <ui:include src="customerMenubar.xhtml"/>
+    <h:form id="searchPlaza" style="padding: 25px">
+
+        <br/>
+
+        <p:panel toggleable="true" toggleTitle="Cím megadása">
+            <p:outputLabel value="Irányítószám:" style="margin: 5px"/>
+            <p:inputText value="#{customerPlazasMBean.searchPostalCode}" style="margin: 5px"/>
+            <p:outputLabel value="Város:" style="margin: 5px"/>
+            <p:inputText value="#{customerPlazasMBean.searchCity}" style="margin: 5px"/>
+            <br/>
+            <br/>
+            <p:commandButton value="Mehet!" actionListener="#{customerPlazasMBean.refreshPlazaList()}"
+                             update=":plazasForm">
+                <f:ajax execute="@form" render=":plazasForm"/>
+            </p:commandButton>
+        </p:panel>
+
+        <p:steps activeIndex="0">
+            <p:menuitem value="Plázák"/>
+            <p:menuitem value="Boltok"/>
+            <p:menuitem value="Termékek"/>
+        </p:steps>
+
+
+    </h:form>
+
+    <br/>
+    <br/>
+
+    <div style="display: flex;
+    padding: 65px; justify-content: center; margin : 5px;
+    width: 100%;
+    flex-wrap: wrap;">
+
+        <h:form id="plazasForm" style="display: contents;
+    padding: 65px; justify-content: center; margin : 5px;
+    width: 100%;
+    flex-wrap: wrap;">
+
+            <ui:repeat value="#{customerPlazasMBean.filteredPlazaList}" var="plaza">
+                <h:commandLink style="text-decoration: none;">
+
+                    <p:card title="#{plaza.name}" header="#{plaza.address.toString()}"
+                            style="margin: 10px;width: 250px;height: 300px;padding: 10px;background: #C7395F;color: cornsilk;">
+                        <br/>
+                        <br/>
+                        <p:outputLabel value="#{customerPlazasMBean.plazaIdShopCountMap.get(plaza.id)} bolt és " style="margin: 5px"/>
+                        <p:outputLabel value="#{customerPlazasMBean.plazaIdProductCountMap.get(plaza.id)} termék." style="margin: 5px"/>
+                    </p:card>
+                    <p:ajax event="click" listener="#{customerPlazasMBean.onPlazaClick(plaza)}"/>
+                </h:commandLink>
+            </ui:repeat>
+        </h:form>
+    </div>
+</h:body>
+</html>

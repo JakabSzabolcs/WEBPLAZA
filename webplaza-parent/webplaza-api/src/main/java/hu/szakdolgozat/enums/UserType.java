@@ -1,16 +1,25 @@
 package hu.szakdolgozat.enums;
 
-import java.util.List;
-
 public enum UserType {
-    CUSTOMER("Vásárló"),
-    COURIER("Futár"),
-    ADMIN("Adminisztrátor"),
-    SHOP_OWNER("Bolt tulajdonos");
+    CUSTOMER,
+    COURIER,
+    ADMIN,
+    SHOP_OWNER;
 
-    UserType(String s) {
+    @Override
+    public String toString() {
+        switch (this) {
+            case CUSTOMER:
+                return "Vásárló";
+            case COURIER:
+                return "Futár";
+            case ADMIN:
+                return "Adminisztrátor";
+            case SHOP_OWNER:
+                return "Bolt tulajdonos";
+            default:
+                return "N/A";
+        }
     }
-    public static List<UserType> getAll() {
-        return List.of(UserType.values());
-    }
+
 }

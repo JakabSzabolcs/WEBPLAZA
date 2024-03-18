@@ -14,7 +14,6 @@ public class Order extends AbstractCoreEntity {
     private LocalDateTime deliveryDate;
 
     @OneToOne
-    @MapsId
     @JoinColumn(name = "courier_id")
     private User courier;
 
@@ -22,7 +21,7 @@ public class Order extends AbstractCoreEntity {
     @JoinColumn(name = "customer_id")
     private User customer;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "orders_product",
             joinColumns = @JoinColumn(name = "order_id"),
@@ -36,6 +35,11 @@ public class Order extends AbstractCoreEntity {
     @Column(name = "order_state", nullable = false, columnDefinition = "VARCHAR(255) DEFAULT 'WAITING'")
     @Enumerated(EnumType.STRING)
     private OrderState orderState;
+
+    public Order() {
+        this.orderState = OrderState.WAITING;
+        this.products = List.of();
+    }
 
     public OrderState getOrderState() {
         return orderState;

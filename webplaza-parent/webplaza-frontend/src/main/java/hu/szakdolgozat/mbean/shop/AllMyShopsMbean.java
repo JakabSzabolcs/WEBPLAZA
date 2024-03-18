@@ -1,7 +1,10 @@
 package hu.szakdolgozat.mbean.shop;
 
 
-import hu.szakdolgozat.entity.*;
+import hu.szakdolgozat.entity.Address;
+import hu.szakdolgozat.entity.Plaza;
+import hu.szakdolgozat.entity.Shop;
+import hu.szakdolgozat.entity.User;
 import hu.szakdolgozat.service.PlazaService;
 import hu.szakdolgozat.service.ProductService;
 import hu.szakdolgozat.service.ShopService;
@@ -14,10 +17,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Named
 @ViewScoped
@@ -27,9 +28,12 @@ public class AllMyShopsMbean implements Serializable {
     private User loggedInUser;
     private Shop selectedShop = new Shop();
     private String newShopName;
+    private String newShopDescription;
     private Long newPlazaId;
     private Address newPlazaAddress;
-    private List<Plaza> allPlazaList = new ArrayList<>();
+    private List<Plaza> allPlazaList;
+    private List<Shop> selectedShops;
+    private Map<Long, Integer> shopIdProductCountMap;
 
 
     @Inject
@@ -41,27 +45,36 @@ public class AllMyShopsMbean implements Serializable {
 
     @PostConstruct
     public void init() {
-        allPlazaList = plazaService.getAllEntity();
-        loggedInUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("loggedInUser");
-        shopList = shopService.getShopsByOwnerUser(loggedInUser);
+        load();
         initNew();
     }
 
-    public void saveShop() {
+    public void load() {
+        allPlazaList = plazaService.getAllEntity();
+        loggedInUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("loggedInUser");
+        shopList = shopService.getShopsByOwnerUser(loggedInUser);
+    }
 
-        if (newShopName == null || newShopName.isEmpty() || newPlazaId == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hiba", "Nem adott meg nevet a boltjának."));
-            return;
+    public void newShop() {
+        if (newShopName.isEmpty() || newPlazaId == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hiba.", "Minden mező kitöltése kötelező."));
+        } else {
+            Shop newShop = new Shop();
+            newShop.setName(newShopName);
+            newShop.setUser(loggedInUser);
+            newShop.setPlaza(plazaService.getById(newPlazaId));
+            shopService.add(newShop);
+            shopList = shopService.getShopsByOwnerUser(loggedInUser);
+            initNew();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Siker.", "Sikeres hozzáadás."));
         }
+    }
 
-        Shop newShop = new Shop();
-        newShop.setName(newShopName);
-        newShop.setUser(loggedInUser);
-        newShop.setPlaza(plazaService.getById(newPlazaId));
-        shopService.add(newShop);
+    public void editShop() {
+        shopService.update(selectedShop);
         shopList = shopService.getShopsByOwnerUser(loggedInUser);
         initNew();
-
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Siker.", "Sikeres módosítás."));
     }
 
     public void initNew() {
@@ -70,19 +83,17 @@ public class AllMyShopsMbean implements Serializable {
         selectedShop = new Shop();
     }
 
-    public void onRowEdit(Shop shop) {
-        shopService.update(shop);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Sikeres szerkesztés"));
-    }
-
-    public void onRowCancel() {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Szerkesztés megszakítva"));
-    }
-
     public void deleteShop() {
         shopService.delete(selectedShop);
         shopList = shopService.getShopsByOwnerUser(loggedInUser);
+        initNew();
+        load();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Siker.", "Sikeres törlés."));
 
+    }
+
+    public boolean hasSelectedShops() {
+        return this.selectedShops != null && !this.selectedShops.isEmpty();
     }
 
     public void viewProductsUnderShop(Shop shop) {
@@ -91,6 +102,30 @@ public class AllMyShopsMbean implements Serializable {
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "productsUnderShop.xhtml?faces-redirect=true");
     }
 
+    public void deleteSelectedShops() {
+        for (Shop shop : selectedShops) {
+            shopService.delete(shop);
+        }
+        initNew();
+        load();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Siker.", "Sikeres törlés."));
+    }
+
+    public Map<Long, Integer> getShopIdProductCountMap() {
+        return shopIdProductCountMap;
+    }
+
+    public void setShopIdProductCountMap(Map<Long, Integer> shopIdProductCountMap) {
+        this.shopIdProductCountMap = shopIdProductCountMap;
+    }
+
+    public List<Shop> getSelectedShops() {
+        return selectedShops;
+    }
+
+    public void setSelectedShops(List<Shop> selectedShops) {
+        this.selectedShops = selectedShops;
+    }
 
     public void setPlazaAddressById() {
         newPlazaAddress = plazaService.getById(newPlazaId).getAddress();
@@ -150,5 +185,13 @@ public class AllMyShopsMbean implements Serializable {
 
     public void setLoggedInUser(User loggedInUser) {
         this.loggedInUser = loggedInUser;
+    }
+
+    public String getNewShopDescription() {
+        return newShopDescription;
+    }
+
+    public void setNewShopDescription(String newShopDescription) {
+        this.newShopDescription = newShopDescription;
     }
 }

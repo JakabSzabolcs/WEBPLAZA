@@ -60,7 +60,7 @@
                 <h:outputText value="#{user.creationDate}"/>
             </p:column>
             <p:column headerText="#{msg['role']}">
-                <h:outputText value="#{user.type}"/>
+                <h:outputText value="#{user.type.toString()}"/>
             </p:column>
         </p:dataTable>
     </h:form>
@@ -80,7 +80,7 @@
                 <p:outputLabel for="type" value="Szerepkör:"/>
                 <p:selectOneMenu id="type" value="#{adminUsersMBean.selectedUser.type}">
                     <f:selectItem itemLabel="Válasszon:" itemValue=""/>
-                    <f:selectItems value="#{adminUsersMBean.userRoleList}" var="role" itemLabel="#{role.name()}"
+                    <f:selectItems value="#{adminUsersMBean.userRoleList}" var="role" itemLabel="#{role.toString()}"
                                    itemValue="#{role}" required="true"
                                    requiredMessage="Szerepkör kiválasztása kötelező!"/>
                 </p:selectOneMenu>

@@ -2,8 +2,9 @@ package hu.szakdolgozat.mbean.admin;
 
 import hu.szakdolgozat.entity.Address;
 import hu.szakdolgozat.entity.Plaza;
+import hu.szakdolgozat.entity.Shop;
 import hu.szakdolgozat.service.PlazaService;
-import org.apache.commons.math3.analysis.function.Add;
+import hu.szakdolgozat.service.ShopService;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -14,6 +15,8 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Named
 @ViewScoped
@@ -21,16 +24,20 @@ public class AdminPlazasMBean implements Serializable {
 
     @Inject
     private PlazaService plazaService;
+    @Inject
+    private ShopService shopService;
 
-    List<Plaza> plazaList = new ArrayList<>();
-    Plaza selectedPlaza = new Plaza();
-    Address address = new Address();
+    private List<Plaza> plazaList = new ArrayList<>();
+    private Plaza selectedPlaza = new Plaza();
+    private Address address = new Address();
+    private Map<Long, List<Shop>> plazaIdShopsMap;
 
 
     @PostConstruct
     public void init() {
         load();
         initNew();
+        plazaIdShopsMap = shopService.getAllEntity().stream().collect(Collectors.groupingBy(shop -> shop.getPlaza().getId()));
     }
 
     private void load() {
@@ -68,6 +75,13 @@ public class AdminPlazasMBean implements Serializable {
         load();
     }
 
+    public Map<Long, List<Shop>> getPlazaIdShopsMap() {
+        return plazaIdShopsMap;
+    }
+
+    public void setPlazaIdShopsMap(Map<Long, List<Shop>> plazaIdShopsMap) {
+        this.plazaIdShopsMap = plazaIdShopsMap;
+    }
 
     public Address getAddress() {
         return address;
@@ -93,4 +107,5 @@ public class AdminPlazasMBean implements Serializable {
     public void setPlazaList(List<Plaza> plazaList) {
         this.plazaList = plazaList;
     }
+
 }

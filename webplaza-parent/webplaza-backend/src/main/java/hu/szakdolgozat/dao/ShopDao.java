@@ -11,4 +11,6 @@ public interface ShopDao extends JpaCommonEntityDao<Shop>{
     List<Shop> getShopsByOwnerUser(User owner);
 
     List<Shop> getShopsByPlazaAndOwner(Plaza plaza, User owner);
+
+    void remove(Shop shop);
 }

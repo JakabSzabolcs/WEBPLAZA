@@ -1,6 +1,7 @@
 package hu.szakdolgozat.service.impl;
 
 import hu.szakdolgozat.dao.ProductDao;
+import hu.szakdolgozat.entity.Order;
 import hu.szakdolgozat.entity.Product;
 import hu.szakdolgozat.entity.Shop;
 import hu.szakdolgozat.service.ProductService;
@@ -19,5 +20,10 @@ public class ProductServiceImpl extends JpaCommonEntityServiceImpl<Product> impl
     public List<Product> getProductsByShop(Shop shop) {
         return productDao.getProductsByShop(shop);
 
+    }
+
+    @Override
+    public List<Product> getProductByOrder(Order order) {
+        return productDao.getProductsByOrder(order);
     }
 }

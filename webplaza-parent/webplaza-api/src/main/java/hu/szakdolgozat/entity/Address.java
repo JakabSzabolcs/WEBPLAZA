@@ -13,6 +13,13 @@ public class Address {
     public Address() {
     }
 
+    public Address(String postalCode, String city, String street, String houseNumber) {
+        this.city = city;
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.postalCode = postalCode;
+    }
+
     @Override
     public String toString() {
         if (city == null || street == null || houseNumber == null || postalCode == null) {

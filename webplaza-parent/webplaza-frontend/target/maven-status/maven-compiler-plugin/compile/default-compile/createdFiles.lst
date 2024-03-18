@@ -1,10 +1,13 @@
+hu\szakdolgozat\mbean\customer\CustomerShopsMBean.class
 hu\szakdolgozat\mbean\admin\AdminPlazasMBean.class
+hu\szakdolgozat\mbean\customer\CustomerProductsMBean.class
 hu\szakdolgozat\mbean\EditProfileMBean.class
 hu\szakdolgozat\mbean\LoginMBean$1.class
-hu\szakdolgozat\mbean\shop\ShopOwnerPlazasMBean.class
+hu\szakdolgozat\mbean\customer\CustomerOldOrdersMBean.class
 hu\szakdolgozat\mbean\shop\ProductsUnderShopMBean.class
-hu\szakdolgozat\mbean\shop\ShopsUnderPlaza.class
+hu\szakdolgozat\mbean\courier\CourierPlazas.class
 hu\szakdolgozat\mbean\admin\AdminUsersMBean.class
+hu\szakdolgozat\mbean\customer\CustomerPlazasMBean.class
 hu\szakdolgozat\mbean\LoginMBean.class
 hu\szakdolgozat\filter\AuthenticationFilter.class
 hu\szakdolgozat\mbean\shop\AllMyShopsMbean.class

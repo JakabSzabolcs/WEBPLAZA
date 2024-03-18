@@ -1,4 +1,7 @@
+hu\szakdolgozat\enums\UserType$1.class
 hu\szakdolgozat\service\UserService.class
+hu\szakdolgozat\enums\MeasureUnit$1.class
+hu\szakdolgozat\enums\Currency$1.class
 hu\szakdolgozat\entity\Address.class
 hu\szakdolgozat\enums\OrderState.class
 hu\szakdolgozat\enums\Currency.class
@@ -6,13 +9,16 @@ hu\szakdolgozat\enums\ProductCategory.class
 hu\szakdolgozat\entity\AbstractFelhasznalo.class
 hu\szakdolgozat\entity\Plaza.class
 hu\szakdolgozat\entity\User.class
+hu\szakdolgozat\enums\ProductCategory$1.class
 hu\szakdolgozat\entity\Product.class
 hu\szakdolgozat\service\ProductService.class
 hu\szakdolgozat\entity\AbstractCoreEntity.class
+hu\szakdolgozat\enums\MeasureUnit.class
 hu\szakdolgozat\entity\Shop.class
 hu\szakdolgozat\enums\UserType.class
 hu\szakdolgozat\service\OrderService.class
 hu\szakdolgozat\entity\Order.class
+hu\szakdolgozat\enums\OrderState$1.class
 hu\szakdolgozat\service\PlazaService.class
 hu\szakdolgozat\service\JpaCommonEntityService.class
 hu\szakdolgozat\service\ShopService.class

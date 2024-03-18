@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xml:lang="en" lang="en"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
@@ -27,7 +28,7 @@
                 <p:commandButton icon="pi pi-plus" value="#{msg['newButton']}"
                                  actionListener="#{productsUnderShopMBean.initNew()}"
                                  update="@form" style="margin: 5px"
-                                 oncomplete="PF('newDialog').show()"/>
+                                 oncomplete="PF('editDialog').show()"/>
 
                 <p:commandButton icon="pi pi-pencil" value="#{msg['editButton']}" update=":editDialog"
                                  oncomplete="PF('editDialog').show()" style="margin: 5px"
@@ -40,7 +41,6 @@
 
         </p:toolbar>
 
-        <!-- jelenlegi bolt: #{productsUnderShopMBean.shop.name} -->
         <p:outputLabel value="Jelenlegi bolt: #{productsUnderShopMBean.currentShop.name}" style="margin: 10px"/>
 
 
@@ -49,6 +49,7 @@
                      selection="#{productsUnderShopMBean.selectedProduct}"
                      rows="5"
                      rowKey="#{product.id}"
+                     paginatorPosition="bottom"
                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                      currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                      rowsPerPageTemplate="5,10,{ShowAll|'All'}">
@@ -59,42 +60,57 @@
                 <h:outputText value="#{product.id}"/>
             </p:column>
             <p:column headerText="Megnevezés">
-                <h:outputText value="#{product.name}"/>
+                <h:outputText value="#{product.name} (#{product.measureUnit})"/>
+            </p:column>
+            <p:column headerText="Leírás">
+                <h:outputText value="#{product.description}"/>
             </p:column>
             <p:column headerText="Ár">
-                <h:outputText value="#{product.price}"/>
+                <h:outputText value="#{product.price} #{product.currency.toString()}"/>
             </p:column>
             <p:column headerText="Kategória">
-                <h:outputText value="#{product.category}"/>
+                <h:outputText value="#{product.category.toString()}"/>
             </p:column>
         </p:dataTable>
     </h:form>
 
-    <!-- new dialog -->
-    <p:dialog modal="true" id="newDialog" widgetVar="newDialog" closable="true">
-        <h:form id="newForm" style="width: fit-content">
+    <p:dialog modal="true" id="editDialog" widgetVar="editDialog" closable="true">
+        <h:form id="editForm" style="width: auto">
             <p:panelGrid columns="2">
                 <p:outputLabel for="name" value="Megnevezés"/>
-                <p:inputText id="name" value="#{productsUnderShopMBean.selectedProduct.name}"/>
+                <p:inputText id="name" value="#{productsUnderShopMBean.selectedProduct.name}" required="true"/>
                 <p:outputLabel for="price" value="Ár"/>
-                <p:inputText id="price" value="#{productsUnderShopMBean.selectedProduct.price}"/>
+                <p:inputNumber id="price" value="#{productsUnderShopMBean.selectedProduct.price}" required="true"/>
+
+                <p:outputLabel for="currency" value="Pénznem"/>
+                <p:selectOneMenu id="currency" value="#{productsUnderShopMBean.selectedProduct.currency}"
+                                 required="true" requiredMessage="Mező kitöltése kötelező!">
+                    <f:selectItem value="#{null}" itemLabel="#{null}" itemValue="#{null}"/>
+                    <f:selectItems value="#{productsUnderShopMBean.currencies}" var="currency"
+                                   itemLabel="#{currency}" itemValue="#{currency}"/>
+                </p:selectOneMenu>
+                <p:outputLabel for="mennyEgyseg" value="Mennyiségi egység"/>
+                <p:selectOneMenu id="mennyEgyseg" value="#{productsUnderShopMBean.selectedProduct.measureUnit}"
+                                 required="true" requiredMessage="Mező kitöltése kötelező!">
+                    <f:selectItem value="#{null}" itemLabel="#{null}" itemValue="#{null}"/>
+                    <f:selectItems value="#{productsUnderShopMBean.mennyEgyegek}" var="mennyEgyseg"
+                                   itemLabel="#{mennyEgyseg.toString()}" itemValue="#{mennyEgyseg}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel for="desciption" value="Leírás"/>
+                <p:inputText id="desciption" value="#{productsUnderShopMBean.selectedProduct.description}"
+                             required="true"/>
                 <p:outputLabel for="category" value="Kategória"/>
-                <p:inputText id="category" value="#{productsUnderShopMBean.selectedProduct.category}"/>
+                <p:selectOneMenu id="category" value="#{productsUnderShopMBean.selectedProduct.category}"
+                                 required="true">
+                    <f:selectItem value="#{null}" itemLabel="#{null}" itemValue="#{null}"/>
+                    <f:selectItems value="#{productsUnderShopMBean.categories}" var="category"
+                                   itemLabel="#{category}" itemValue="#{category}"/>
+                </p:selectOneMenu>
             </p:panelGrid>
-            <p:commandButton value="Mentés" action="#{productsUnderShopMBean.saveProduct()}"
-                             oncomplete="PF('newDialog').hide()" update=":adminForm"/>
-            <p:commandButton value="Mégse" onclick="PF('newDialog').hide()"/>
-        </h:form>
-    </p:dialog>
-
-    <p:dialog modal="true" id="editDialog" widgetVar="editDialog" closable="true">
-        <h:form id="editForm" style="width: fit-content">
-            <p:panelGrid columns="2">
-
-            </p:panelGrid>
-            <p:commandButton value="Mentés" action="#{productsUnderShopMBean.updateProduct()}"
-                             oncomplete="PF('editDialog').hide()" update=":adminForm"/>
-            <p:commandButton value="Mégse" onclick="PF('editDialog').hide()"/>
+            <p:commandButton value="Mentés" action="#{productsUnderShopMBean.save()}" style="margin:10px;"
+                             oncomplete="PF('editDialog').hide()" update=":shopProducts"/>
+            <p:commandButton value="Mégse" onclick="PF('editDialog').hide()" style="margin:10px;"/>
         </h:form>
     </p:dialog>
 
@@ -103,8 +119,8 @@
             <p:outputLabel value="#{msg['confirmDelete']}"/>
             <br/>
             <p:commandButton value="#{msg['yes']}" action="#{productsUnderShopMBean.deleteProduct()}"
-                             style="margin-right:10px;"
-                             oncomplete="PF('confirmRemove').hide()" update=":adminForm"/>
+                             style="margin:10px;"
+                             oncomplete="PF('confirmRemove').hide()" update=":shopProducts"/>
             <p:commandButton value="#{msg['no']}" onclick="PF('confirmRemove').hide()" style="margin:10px;"/>
         </h:form>
     </p:dialog>

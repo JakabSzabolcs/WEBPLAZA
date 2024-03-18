@@ -51,4 +51,15 @@ public class ShopDaoImpl extends JpaCommonEntityDaoImpl<Shop> implements ShopDao
 
     }
 
+    @Override
+    public void remove(Shop shop) {
+        //delete the pruducts under the shop too
+        entityManager.createQuery("DELETE FROM Product p WHERE p.shop.id = :id")
+                .setParameter("id", shop.getId())
+                .executeUpdate();
+
+
+        entityManager.remove(shop);
+    }
+
 }

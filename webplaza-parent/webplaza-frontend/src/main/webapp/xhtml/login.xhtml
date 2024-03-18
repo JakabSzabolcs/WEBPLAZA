@@ -33,7 +33,7 @@
             </h:panelGrid>
 
         </p:panel>
-        <p:panel style="margin: auto auto auto 50px" >
+        <p:panel style="margin: auto auto auto 50px">
             <h:panelGrid>
                 <h:outputLabel for="register" value="#{msg['regQuestion']}"/>
                 <p:commandButton icon="pi pi-sign-in" id="register" value="#{msg['register']}"
@@ -47,14 +47,14 @@
         <h:form id="registerDialogForm">
             <p:panelGrid columns="2" layout="grid">
                 <p:outputLabel for="Eusername" value="#{msg['fillusername']}"/>
-                <p:inputText id="Eusername" value="#{loginMBean.username}"/>
+                <p:inputText id="Eusername" value="#{loginMBean.username}" required="true"/>
                 <p:outputLabel for="Epassword" value="#{msg['fillpassword']}"/>
-                <p:password id="Epassword" value="#{loginMBean.password}" toggleMask="true"
+                <p:password id="Epassword" value="#{loginMBean.password}" toggleMask="true" required="true"
                             redisplay="true"/>
                 <p:outputLabel for="EpasswordAgain" value="#{msg['passwordAgain']}"/>
-                <p:password id="EpasswordAgain" value="#{loginMBean.passwordAgain}" toggleMask="true"
+                <p:password id="EpasswordAgain" value="#{loginMBean.passwordAgain}" toggleMask="true" required="true"
                             redisplay="true"/>
-<!--                <p:captcha label="Captcha"/>-->
+                <!--                <p:captcha label="Captcha"/>-->
 
                 <p:commandButton value="#{msg['register']}" validateClient="true"
                                  update=":loginForm"

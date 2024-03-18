@@ -5,6 +5,7 @@ hu\szakdolgozat\dao\UserDao.class
 hu\szakdolgozat\dao\impl\ShopDaoImpl.class
 hu\szakdolgozat\service\impl\ProductServiceImpl.class
 hu\szakdolgozat\dao\impl\ProductDaoImpl.class
+hu\szakdolgozat\dao\impl\OrderDaoImpl$1.class
 hu\szakdolgozat\dao\JpaCommonEntityDao.class
 hu\szakdolgozat\dao\PlazaDao.class
 hu\szakdolgozat\dao\impl\PlazaDaoImpl.class

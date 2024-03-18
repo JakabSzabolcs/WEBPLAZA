@@ -2,6 +2,7 @@ package hu.szakdolgozat.entity;
 
 
 import hu.szakdolgozat.enums.Currency;
+import hu.szakdolgozat.enums.MeasureUnit;
 import hu.szakdolgozat.enums.ProductCategory;
 
 import javax.persistence.*;
@@ -18,6 +19,10 @@ public class Product extends AbstractCoreEntity {
 
     @Column(name = "description", nullable = false)
     private String description;
+
+    @Column(name = "measure_unit", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private MeasureUnit measureUnit;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "category", nullable = false)
@@ -77,5 +82,13 @@ public class Product extends AbstractCoreEntity {
 
     public void setShop(Shop shop) {
         this.shop = shop;
+    }
+
+    public MeasureUnit getMeasureUnit() {
+        return measureUnit;
+    }
+
+    public void setMeasureUnit(MeasureUnit measureUnit) {
+        this.measureUnit = measureUnit;
     }
 }
