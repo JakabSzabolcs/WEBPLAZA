@@ -16,7 +16,7 @@ import java.util.List;
 @Stateless
 public class OrderDaoImpl extends JpaCommonEntityDaoImpl<Order> implements OrderDao {
 
-    private static final String SELECT_WAITING_ORDERS_BY_PLAZA = "SELECT\n" + "    distinct (o.id)\n" + "FROM orders o\n" + "         INNER JOIN orders_product op ON o.id = op.order_id\n" + "         INNER JOIN product p ON op.products_id = p.id\n" + "INNER JOIN shop s on p.shop_id = s.id\n" + "WHERE s.plaza_id = :plazaId\n" + "AND o.order_state = 'WAITING'";
+    private static final String SELECT_NEW_ORDERS_BY_PLAZA = "SELECT\n" + "    distinct (o.id)\n" + "FROM orders o\n" + "         INNER JOIN orders_product op ON o.id = op.order_id\n" + "         INNER JOIN product p ON op.products_id = p.id\n" + "INNER JOIN shop s on p.shop_id = s.id\n" + "WHERE s.plaza_id = :plazaId\n" + "AND o.order_state = 'NEW'";
 
     @Override
     protected Class<Order> getManagedClass() {
@@ -24,9 +24,9 @@ public class OrderDaoImpl extends JpaCommonEntityDaoImpl<Order> implements Order
     }
 
     @Override
-    public List<Order> getWaitingOrdersByPlaza(Plaza plaza) {
+    public List<Order> getNewOrdersByPlaza(Plaza plaza) {
         try {
-            List<Integer> orderIds = entityManager.createNativeQuery(SELECT_WAITING_ORDERS_BY_PLAZA).setParameter("plazaId", plaza.getId()).getResultList();
+            List<Integer> orderIds = entityManager.createNativeQuery(SELECT_NEW_ORDERS_BY_PLAZA).setParameter("plazaId", plaza.getId()).getResultList();
             List<Order> orders = new ArrayList<>();
             for (Integer orderId : orderIds) {
                 Order order = entityManager.find(Order.class, Long.valueOf(orderId));
@@ -64,5 +64,28 @@ public class OrderDaoImpl extends JpaCommonEntityDaoImpl<Order> implements Order
         return sum;
 
 
+    }
+
+    @Override
+    public boolean isCourierOccupied(User user) {
+        boolean isOccupied = false;
+        try {
+            isOccupied = entityManager.createQuery("SELECT COUNT(o) > 0 FROM Order o WHERE o.courier = :user AND o.orderState = 'IN_PROGRESS'", Boolean.class)
+                    .setParameter("user", user)
+                    .getSingleResult();
+        } catch (NoResultException ignored) {
+        }
+        return Boolean.TRUE.equals(isOccupied);
+    }
+
+    @Override
+    public Order getActiveOrderByCourier(User user) {
+        try {
+            return entityManager.createQuery("SELECT o FROM Order o WHERE o.courier = :user AND o.orderState = 'IN_PROGRESS'", Order.class)
+                    .setParameter("user", user)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

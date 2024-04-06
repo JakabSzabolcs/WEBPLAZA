@@ -10,7 +10,7 @@
 </h:head>
 <h:body style="background: gainsboro">
 
-    <ui:include src="editProfile.xhtml"/>
+    <ui:include src="adminMenubar.xhtml"/>
 
     <!-- edit profile form panel -->
     <h:form id="editProfileForm" style="margin-top: 50px; margin-left: 50px; margin-right: 50px">
@@ -29,10 +29,10 @@
                 <p:password value="#{editProfileMBean.newPassWordAgain}"/>
 
 
-                <h:outputText value="Full Name: " style="font-size: 18px; font-weight: bold"/>
+                <h:outputText value="Teljes név: " style="font-size: 18px; font-weight: bold"/>
                 <p:inputText value="#{editProfileMBean.loggedInUser.fullname}"/>
                 <h:outputText value="Telefonszám: " style="font-size: 18px; font-weight: bold"/>
-                <p:inputMask  value="#{editProfileMBean.loggedInUser.phoneNumber}" mask="99 99 999 9999"/>
+                <p:inputMask value="#{editProfileMBean.loggedInUser.phoneNumber}" mask="+36 99 999-9999"/>
             </p:panelGrid>
             <p:commandButton value="Mentés" action="#{editProfileMBean.saveEditProfile()}" update="messages"
                              style="margin-top: 20px; margin-left: 40%; width: 20%"/>

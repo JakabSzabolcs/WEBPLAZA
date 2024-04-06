@@ -1,6 +1,7 @@
 package hu.szakdolgozat.mbean.customer;
 
 import hu.szakdolgozat.entity.Plaza;
+import hu.szakdolgozat.entity.User;
 import hu.szakdolgozat.service.PlazaService;
 import hu.szakdolgozat.service.ShopService;
 import org.primefaces.PrimeFaces;
@@ -27,6 +28,7 @@ public class CustomerPlazasMBean implements Serializable {
     private List<Plaza> filteredPlazaList = new ArrayList<>();
     private Map<Long, Integer> plazaIdShopCountMap;
     private Map<Long, Integer> plazaIdProductCountMap;
+    private User loggedInUser;
 
     @Inject
     private PlazaService plazaService;
@@ -40,6 +42,7 @@ public class CustomerPlazasMBean implements Serializable {
 
     public void load() {
         plazaList = plazaService.getAllEntity();
+        loggedInUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("loggedInUser");
         plazaIdShopCountMap = plazaList.stream().collect(Collectors.toMap(Plaza::getId, plaza -> shopService.getShopsByPlazaId(plaza.getId()).size()));
         plazaIdProductCountMap = plazaList.stream().collect(Collectors.toMap(Plaza::getId, plaza -> shopService.getShopsByPlazaId(plaza.getId()).stream().map(shop -> shop.getProducts().size()).reduce(0, Integer::sum)));
         refreshPlazaList();
@@ -49,17 +52,16 @@ public class CustomerPlazasMBean implements Serializable {
     public void refreshPlazaList() {
         filteredPlazaList = new ArrayList<>();
         filteredPlazaList.addAll(plazaList.stream().filter(plaza -> {
-            if (searchPostalCode != null && !searchPostalCode.isEmpty()) {
-                return searchPostalCode.equals(plaza.getAddress().getPostalCode());
-            }
-            return true;
-        }).filter(plaza -> {
             if (searchCity != null && !searchCity.isEmpty()) {
                 return searchCity.equals(plaza.getAddress().getCity());
             }
-            return true;
+            return cityNotEmpty(loggedInUser) && loggedInUser.getAddress().getCity().equalsIgnoreCase(plaza.getAddress().getCity());
         }).filter(plaza -> plazaIdProductCountMap.get(plaza.getId()) > 0).collect(Collectors.toList()));
         PrimeFaces.current().executeScript("PF('plazasForm').update();");
+    }
+
+    private boolean cityNotEmpty(User loggedInUser) {
+        return loggedInUser.getAddress() != null && loggedInUser.getAddress().getCity() != null;
     }
 
     public void onPlazaClick(Plaza plaza) {
@@ -114,5 +116,13 @@ public class CustomerPlazasMBean implements Serializable {
 
     public void setPlazaIdProductCountMap(Map<Long, Integer> plazaIdProductCountMap) {
         this.plazaIdProductCountMap = plazaIdProductCountMap;
+    }
+
+    public User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(User loggedInUser) {
+        this.loggedInUser = loggedInUser;
     }
 }

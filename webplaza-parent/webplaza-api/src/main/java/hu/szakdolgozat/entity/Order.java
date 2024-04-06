@@ -32,12 +32,12 @@ public class Order extends AbstractCoreEntity {
     @Embedded
     private Address deliveryAddress;
 
-    @Column(name = "order_state", nullable = false, columnDefinition = "VARCHAR(255) DEFAULT 'WAITING'")
+    @Column(name = "order_state", nullable = false, columnDefinition = "VARCHAR(255) DEFAULT 'NEW'")
     @Enumerated(EnumType.STRING)
     private OrderState orderState;
 
     public Order() {
-        this.orderState = OrderState.WAITING;
+        this.orderState = OrderState.NEW;
         this.products = List.of();
     }
 

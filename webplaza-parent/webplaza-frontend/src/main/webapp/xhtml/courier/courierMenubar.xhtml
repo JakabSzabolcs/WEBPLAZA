@@ -10,14 +10,14 @@
 
     <style>
         .ui-menubar {
-            background-color: #f0f0f0;
-            border: 1px solid #e5e5e5;
+            background-color: #ffffff;
+            border: 1px solid #ffffff;
             border-radius: 5px;
         }
 
         .ui-menuitem {
-            background-color: #f0f0f0;
-            border: 1px solid #e5e5e5;
+            background-color: #ffffff;
+            border: 1px solid #da0000;
             border-radius: 5px;
         }
 
@@ -25,14 +25,23 @@
     </style>
 </h:head>
 
-<h:body>
-    <!-- menubar for all pages -->
+<h:body style="background: linear-gradient(90deg, #fcf5ab, #2bb2da);
+    font-family: sans-serif;
+    color: #021594;">    <!-- menubar for all pages -->
 
     <h:form>
 
         <p:menubar>
 
-                <p:menuitem value="Plázák" url="courierPlazas.xhtml" icon="ui-icon-document"/>
+            <p:menuitem value="Új rendelések" url="courierPlazas.xhtml" icon="ui-icon-document">
+                Új rendelések
+                <p:badge rendered="#{courierPlazasMBean.allNewOrderCount > 0}"
+                         value="#{courierPlazasMBean.allNewOrderCount}" severity="danger"/>
+
+            </p:menuitem>
+
+
+            <p:menuitem value="Jelenlegi rendelésem" url="currentOrder.xhtml" icon="ui-icon-document"/>
 
             <!--        <p:submenu label="Nyelv választás"  icon="ui-icon-globe">-->
             <!--            <p:menuitem value="Magyar" action="#{languageBean.changeLanguage('hu')}" icon="ui-icon-flag" />-->

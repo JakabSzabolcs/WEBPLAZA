@@ -24,6 +24,7 @@ public class LoginMBean implements Serializable {
 
 
     private String username;
+    private String phoneNumber;
 
     private String password;
 
@@ -93,6 +94,7 @@ public class LoginMBean implements Serializable {
         }
         User newUser = new User();
         newUser.setUsername(username);
+        newUser.setPhoneNumber(phoneNumber);
         newUser.setPassword(password);
         newUser.setType(UserType.CUSTOMER);
         newUser.setCreationDate(new Date());
@@ -133,6 +135,14 @@ public class LoginMBean implements Serializable {
 
     public void setLoggedInUser(User loggedInUser) {
         this.loggedInUser = loggedInUser;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
 

@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebFilter(filterName = "AuthenticationFilter",
-        urlPatterns = {"/xhtml/admin/*", "/xhtml/courier/*", "/xhtml/customer/*","/xhtml/shopowner/*" })
+        urlPatterns = {"/xhtml/admin/*",
+                       "/xhtml/courier/*",
+                       "/xhtml/customer/*",
+                       "/xhtml/shopowner/*" })
 public class AuthenticationFilter implements Filter {
 
     @Override

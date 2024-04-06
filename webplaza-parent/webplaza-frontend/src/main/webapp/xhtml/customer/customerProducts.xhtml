@@ -12,7 +12,7 @@
     <h:outputStylesheet library="css" name="styles.css"/>
 </h:head>
 <h:body style="background: linear-gradient(68deg, #ded4e8, #e8ba40);
-    font-family: cursive;
+    font-family: sans-serif;
     color: #C7395F;">
 
     <ui:include src="customerMenubar.xhtml"/>
@@ -110,7 +110,7 @@
                     <p:dataScroller value="#{customerProductsMBean.productList}" var="product" chunkSize="10">
                         <div class="product">
                             <p:column>
-                                <h:outputText value="#{product.name} (#{product.measureUnit})"
+                                <h:outputText value="#{product.name} #{product.measureUnit}"
                                               style="font-size: 20px; font-weight: bold;"/>
                                 <h:outputText value="#{product.description}" style="font-size: 15px;"/>
                             </p:column>

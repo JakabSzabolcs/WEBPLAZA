@@ -89,19 +89,19 @@
                              requiredMessage="Név kitöltése kötelező!"/>
 
                 <p:outputLabel for="zip" value="Irányítószám:"/>
-                <p:inputText id="zip" value="#{adminPlazasMBean.address.postalCode}" required="true"
+                <p:inputText id="zip" value="#{adminPlazasMBean.selectedPlaza.address.postalCode}" required="true"
                              requiredMessage="Irányítószám kitöltése kötelező!"/>
 
                 <p:outputLabel for="city" value="Város:"/>
-                <p:inputText id="city" value="#{adminPlazasMBean.address.city}" required="true"
+                <p:inputText id="city" value="#{adminPlazasMBean.selectedPlaza.address.city}" required="true"
                              requiredMessage="Város kitöltése kötelező!"/>
 
                 <p:outputLabel for="street" value="Utca:"/>
-                <p:inputText id="street" value="#{adminPlazasMBean.address.street}" required="true"
+                <p:inputText id="street" value="#{adminPlazasMBean.selectedPlaza.address.street}" required="true"
                              requiredMessage="Utca kitöltése kötelező!"/>
 
                 <p:outputLabel for="number" value="Házszám:"/>
-                <p:inputText id="number" value="#{adminPlazasMBean.address.houseNumber}" required="true"
+                <p:inputText id="number" value="#{adminPlazasMBean.selectedPlaza.address.houseNumber}" required="true"
                              requiredMessage="Házszám kitöltése kötelező!"/>
 
 

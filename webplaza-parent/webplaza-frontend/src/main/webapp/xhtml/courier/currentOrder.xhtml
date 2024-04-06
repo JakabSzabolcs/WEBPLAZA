@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xml:lang="en" lang="en"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>Plázák</title>
+    <h:outputStylesheet library="css" name="styles.css"/>
+</h:head>
+<h:body style="background: linear-gradient(68deg, #fcf5ab, #2bb2da);
+    font-family: sans-serif;
+    color: #021594;">
+    <ui:include src="courierMenubar.xhtml"/>
+    <br/>
+    <br/>
+
+    <div style="display: flex;
+    padding: 65px; justify-content: center; margin : 5px;
+    width: 100%;
+    flex-wrap: wrap;">
+
+        <h:form id="orderForm" style="display: contents;
+    padding: 65px; justify-content: center; margin : 5px;
+    width: 100%;
+    flex-wrap: wrap;">
+            <p:growl id="growl" showDetail="true" globalOnly="true"/>
+
+            <p:panel rendered="#{courierCurrentOrderMBean.currentOrder.id != null}">
+
+
+                <p:outputLabel value="Rendelés azonosítója: #{courierCurrentOrderMBean.currentOrder.id}"
+                               style="margin: 5px"/>
+                <p:outputLabel rendered="#{courierCurrentOrderMBean.currentOrder.customer.fullname != null}"
+                               value="Rendelő #{courierCurrentOrderMBean.currentOrder.customer.fullname}"
+                               style="margin: 5px"/>
+                <p:outputLabel rendered="#{courierCurrentOrderMBean.currentOrder.customer.phoneNumber != null} "
+                               value="Elérhetősége #{courierCurrentOrderMBean.currentOrder.customer.phoneNumber}"
+                               style="margin: 5px"/>
+            </p:panel>
+
+            <p:panel rendered="#{courierCurrentOrderMBean.currentOrder.id != null}">
+                <p:treeTable
+                        value="#{courierCurrentOrderMBean.orderRoot}" var="node" selectionMode="checkbox"
+                        selection="#{courierCurrentOrderMBean.selectedNodes}">
+                    <p:column headerText="Termék lista">
+                        <h:outputText value="#{node.name}"/>
+                    </p:column>
+                </p:treeTable>
+                <p:commandButton id="deliveryButton" value="Kiszállítás"
+                                 action="#{courierCurrentOrderMBean.toDeliver()}"
+                                 style="margin: 5px; padding: 5px;" update="orderForm"/>
+            </p:panel>
+
+            <p:panel rendered="#{courierCurrentOrderMBean.currentOrder.id == null}">
+                <h:outputText value="Nincs aktív rendelés, válassz egyet az aktívak közül!" style="margin: 5px"/>
+            </p:panel>
+
+        </h:form>
+
+        <h:form id="dialogsForm">
+
+            <p:dialog id="deliveryDialog" widgetVar="deliveryDialog" closable="false">
+                <p:outputLabel value="Kiszállítási cím: #{courierCurrentOrderMBean.currentOrder.deliveryAddress}"/>
+                <p:outputLabel rendered="#{courierCurrentOrderMBean.currentOrder.customer.phoneNumber != null} "
+                               value="Elérhetősége #{courierCurrentOrderMBean.currentOrder.customer.phoneNumber}"
+                               style="margin: 5px"/>
+                <p:commandButton value="Átadva" action="#{courierCurrentOrderMBean.delivered()}" style="margin: 5px"
+                                 update="orderForm"/>
+
+            </p:dialog>
+
+        </h:form>
+
+    </div>
+</h:body>
+</html>

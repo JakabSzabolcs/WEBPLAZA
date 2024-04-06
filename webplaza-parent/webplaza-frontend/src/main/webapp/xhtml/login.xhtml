@@ -48,6 +48,8 @@
             <p:panelGrid columns="2" layout="grid">
                 <p:outputLabel for="Eusername" value="#{msg['fillusername']}"/>
                 <p:inputText id="Eusername" value="#{loginMBean.username}" required="true"/>
+                <p:outputLabel for="EphoneNumber" value="Telefonszám"/>
+                <p:inputMask id="EphoneNumber" mask="+36 99 999-9999" value="#{loginMBean.phoneNumber}" required="true"/>
                 <p:outputLabel for="Epassword" value="#{msg['fillpassword']}"/>
                 <p:password id="Epassword" value="#{loginMBean.password}" toggleMask="true" required="true"
                             redisplay="true"/>

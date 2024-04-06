@@ -8,23 +8,34 @@
     <title>Plázák</title>
     <h:outputStylesheet library="css" name="styles.css"/>
 </h:head>
-<h:body style="background: gainsboro">
-
+<h:body style="background: linear-gradient(68deg, #fcf5ab, #2bb2da);
+    font-family: sans-serif;
+    color: #021594;">
     <ui:include src="courierMenubar.xhtml"/>
     <h:form id="searchPlaza" style="padding: 25px">
+        <p:growl id="growl" showDetail="true" globalOnly="true"/>
 
         <br/>
 
-        <h2> Plázák keresése az alábbi helyen: </h2>
+        <h2> Plázák keresése az alábbi városban: </h2>
 
-        <p:outputLabel value="Irányítószám:" style="margin: 5px"/>
-        <p:inputText value="#{courierPlazas.inputAddress.postalCode}" style="margin: 5px"/>
         <p:outputLabel value="Város:" style="margin: 5px"/>
-        <p:inputText value="#{courierPlazas.inputAddress.city}" style="margin: 5px"/>
+        <p:inputText value="#{courierPlazasMBean.inputAddress.city}" style="margin: 5px"/>
+        <br/>
+        <p:outputLabel value="Szűrés az én címemre" style="margin: 5px"/>
+        <p:toggleSwitch onIcon="pi pi-check" offIcon="pi pi-times" value="#{courierPlazasMBean.filterByUsersCity}"
+                        style="margin: 5px">
+            <p:ajax event="change" update=":searchPlaza" listener="#{courierPlazasMBean.refreshPlazaList()}"/>
+
+        </p:toggleSwitch>
         <br/>
         <br/>
-        <p:commandButton value="Mehet!" actionListener="#{courierPlazas.refreshPlazaList()}"
+        <br/>
+        <p:commandButton value="Mehet!" actionListener="#{courierPlazasMBean.refreshPlazaList()}"
                          update=":plazasForm"/>
+
+        <p:outputPanel rendered="#{courierPlazasMBean.inputAddress.city.length() > 0}"
+                       style="margin: 10px;padding: 25px;">Plázák a megadott címe alapján.</p:outputPanel>
 
 
     </h:form>
@@ -42,7 +53,7 @@
     padding: 65px; justify-content: center; margin : 5px;
     width: 100%;
     flex-wrap: wrap;">
-            <ui:repeat value="#{courierPlazas.filteredPlazaList}" var="plaza">
+            <ui:repeat value="#{courierPlazasMBean.filteredPlazaList}" var="plaza">
                 <h:commandLink style="text-decoration: none;">
 
                     <p:card title="#{plaza.name}" header="#{plaza.address.toString()}"
@@ -52,12 +63,19 @@
                         <p:outputLabel value="#{plaza.creationDate} "/>
                         <br/>
                         <p:outputLabel value="Várakozó rendelések:"/>
-                        <p:outputLabel value="#{courierPlazas.getWaitingOrdersByPlaza(plaza)}"/>
+                        <p:outputLabel value="#{courierPlazasMBean.getNewOrdersByPlaza(plaza)}"/>
 
                     </p:card>
-                    <p:ajax event="click" listener="#{courierPlazas.onPlazaClick(plaza)}"/>
+                    <p:ajax event="click" listener="#{courierPlazasMBean.onPlazaClick(plaza)}"/>
                 </h:commandLink>
             </ui:repeat>
+
+
+            <p:panel rendered="#{courierPlazasMBean.filteredPlazaList.size()==0}"
+                     style="margin: 10px;padding: 10px;color: cornsilk;">
+                Nem található rendelés!
+            </p:panel>
+
         </h:form>
     </div>
 </h:body>

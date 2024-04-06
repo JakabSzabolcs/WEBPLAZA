@@ -58,10 +58,7 @@ public class AdminPlazasMBean implements Serializable {
             selectedPlaza.setAddress(address);
             plazaService.add(selectedPlaza);
         } else {
-            if (address.getCity() == null || address.getStreet() == null || address.getHouseNumber() == null || address.getPostalCode() == null) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hiba", "Minden mező kitöltése kötelező!"));
-                return;
-            }
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sikeres módosítás", null));
             plazaService.update(selectedPlaza);
         }
 

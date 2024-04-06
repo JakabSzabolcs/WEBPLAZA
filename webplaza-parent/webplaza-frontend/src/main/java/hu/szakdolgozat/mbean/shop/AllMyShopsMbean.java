@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Named
 @ViewScoped
@@ -53,14 +54,17 @@ public class AllMyShopsMbean implements Serializable {
         allPlazaList = plazaService.getAllEntity();
         loggedInUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("loggedInUser");
         shopList = shopService.getShopsByOwnerUser(loggedInUser);
+        shopIdProductCountMap = shopList.stream().collect(
+                Collectors.toMap(Shop::getId, shop -> shop.getProducts().size()));
     }
 
     public void newShop() {
-        if (newShopName.isEmpty() || newPlazaId == null) {
+        if (newShopName.isEmpty() || newPlazaId == null || newShopDescription.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hiba.", "Minden mező kitöltése kötelező."));
         } else {
             Shop newShop = new Shop();
             newShop.setName(newShopName);
+            newShop.setDescription(newShopDescription);
             newShop.setUser(loggedInUser);
             newShop.setPlaza(plazaService.getById(newPlazaId));
             shopService.add(newShop);
@@ -71,6 +75,7 @@ public class AllMyShopsMbean implements Serializable {
     }
 
     public void editShop() {
+        selectedShop.setPlaza(plazaService.getPlazaByName(selectedShop.getPlaza().getName()));
         shopService.update(selectedShop);
         shopList = shopService.getShopsByOwnerUser(loggedInUser);
         initNew();
@@ -92,23 +97,11 @@ public class AllMyShopsMbean implements Serializable {
 
     }
 
-    public boolean hasSelectedShops() {
-        return this.selectedShops != null && !this.selectedShops.isEmpty();
-    }
 
     public void viewProductsUnderShop(Shop shop) {
         Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         sessionMap.put("currentShop", shop);
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "productsUnderShop.xhtml?faces-redirect=true");
-    }
-
-    public void deleteSelectedShops() {
-        for (Shop shop : selectedShops) {
-            shopService.delete(shop);
-        }
-        initNew();
-        load();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Siker.", "Sikeres törlés."));
     }
 
     public Map<Long, Integer> getShopIdProductCountMap() {

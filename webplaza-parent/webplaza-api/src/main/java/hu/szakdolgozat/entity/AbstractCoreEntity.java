@@ -26,6 +26,13 @@ public abstract class AbstractCoreEntity {
         creationDate = new Date();
     }
 
+    @PreUpdate
+    protected void onUpdate() {
+        modificationDate = new Date();
+    }
+
+
+
     public Long getId() {
         return id;
     }
@@ -33,6 +40,7 @@ public abstract class AbstractCoreEntity {
     public void setId(Long id) {
         this.id = id;
     }
+
     public Date getCreationDate() {
         return creationDate;
     }

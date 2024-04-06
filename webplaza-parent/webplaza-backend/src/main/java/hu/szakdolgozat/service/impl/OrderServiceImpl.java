@@ -13,12 +13,13 @@ import java.util.List;
 
 @Stateless
 public class OrderServiceImpl extends JpaCommonEntityServiceImpl<Order> implements OrderService {
+
     @Inject
     private OrderDao orderDao;
 
     @Override
-    public List<Order> getWaitingOrdersByPlaza(Plaza plaza) {
-        return orderDao.getWaitingOrdersByPlaza(plaza);
+    public List<Order> getNewOrdersByPlaza(Plaza plaza) {
+        return orderDao.getNewOrdersByPlaza(plaza);
     }
 
 
@@ -30,5 +31,15 @@ public class OrderServiceImpl extends JpaCommonEntityServiceImpl<Order> implemen
     @Override
     public BigDecimal getOrderSum(Order order) {
         return orderDao.getOrderSum(order);
+    }
+
+    @Override
+    public boolean isCourierOccupied(User user) {
+        return orderDao.isCourierOccupied(user);
+    }
+
+    @Override
+    public Order getActiveOrderByCourier(User user) {
+        return orderDao.getActiveOrderByCourier(user);
     }
 }

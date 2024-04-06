@@ -1,6 +1,7 @@
 package hu.szakdolgozat.service.impl;
 
 import hu.szakdolgozat.dao.UserDao;
+import hu.szakdolgozat.entity.Order;
 import hu.szakdolgozat.entity.User;
 import hu.szakdolgozat.service.UserService;
 

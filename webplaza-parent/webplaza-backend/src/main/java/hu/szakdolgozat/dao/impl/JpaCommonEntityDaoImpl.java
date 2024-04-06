@@ -15,7 +15,9 @@ public abstract class JpaCommonEntityDaoImpl<T extends AbstractCoreEntity> imple
 
     @Override
     public List<T> getAllEntity() {
-        return entityManager.createQuery("SELECT e FROM " + getManagedClass().getSimpleName() + " e", getManagedClass()).getResultList();
+        return entityManager.createQuery("SELECT e FROM "
+                + getManagedClass().getSimpleName() + " e", getManagedClass())
+                .getResultList();
     }
 
     @Override

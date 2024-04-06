@@ -39,4 +39,10 @@ public class Plaza extends AbstractCoreEntity {
     public void setShops(List<Shop> shops) {
         this.shops = shops;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
 }

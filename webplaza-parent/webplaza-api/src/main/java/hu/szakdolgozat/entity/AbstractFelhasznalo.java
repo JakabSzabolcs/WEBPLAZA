@@ -2,10 +2,7 @@ package hu.szakdolgozat.entity;
 
 import hu.szakdolgozat.enums.UserType;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 @MappedSuperclass
 public abstract class AbstractFelhasznalo extends AbstractCoreEntity {
@@ -25,6 +22,9 @@ public abstract class AbstractFelhasznalo extends AbstractCoreEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private UserType type;
+
+    @Embedded
+    private Address address;
 
     public String getUsername() {
         return username;
@@ -64,5 +64,13 @@ public abstract class AbstractFelhasznalo extends AbstractCoreEntity {
 
     public void setFullname(String fullname) {
         this.fullname = fullname;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

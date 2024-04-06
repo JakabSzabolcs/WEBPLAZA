@@ -3,13 +3,15 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xml:lang="en" lang="en"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
-    <title>Admin - Users</title>
+    <title>Futár - profil szerkesztés</title>
     <h:outputStylesheet library="css" name="styles.css"/>
 </h:head>
-<h:body style="background: gainsboro">
-
+<h:body style="background: linear-gradient(68deg, #fcf5ab, #2bb2da);
+    font-family: sans-serif;
+    color: #021594;">
     <ui:include src="courierMenubar.xhtml"/>
 
     <!-- edit profile form panel -->
@@ -18,7 +20,7 @@
 
         <p:panel header="Profilom szerkesztése" style="font-size: 20px; font-weight: bold; text-align: center">
             <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
-            <p:panelGrid columns="2" style="width: 100%">
+            <p:panelGrid columns="2" style="width: 80%">
                 <h:outputText value="Felhasználó név: " style="font-size: 18px; font-weight: bold"/>
                 <p:inputText value="#{editProfileMBean.loggedInUser.username}"/>
 
@@ -31,14 +33,38 @@
                 <p:password value="#{editProfileMBean.newPassWordAgain}"/>
 
 
-                <h:outputText value="Full Name: " style="font-size: 18px; font-weight: bold"/>
+                <h:outputText value="Teljes Név: " style="font-size: 18px; font-weight: bold"/>
                 <p:inputText value="#{editProfileMBean.loggedInUser.fullname}"/>
                 <h:outputText value="Telefonszám: " style="font-size: 18px; font-weight: bold"/>
-                <p:inputMask  value="#{editProfileMBean.loggedInUser.phoneNumber}" mask="99 99 999 9999"/>
+                <p:inputMask value="#{editProfileMBean.loggedInUser.phoneNumber}" mask="+36 99 999-9999"/>
+
+                <h:outputLabel for="zipCode" value="Irányítószám:"/>
+                <p:inputText id="zipCode" value="#{editProfileMBean.profileAddress.postalCode}"/>
+                <h:outputLabel for="city" value="Város:"/>
+                <p:inputText id="city" value="#{editProfileMBean.profileAddress.city}"/>
+                <h:outputLabel for="street" value="Utca:"/>
+                <p:inputText id="street" value="#{editProfileMBean.profileAddress.street}"/>
+                <h:outputLabel for="streetType" value="Közterület jellege:"/>
+                <p:selectOneMenu id="streetType" value="#{editProfileMBean.streetTypeSelected}"
+                                 style="width: 80%" required="true"
+                                 filter="true" filterMatchMode="contains" filterNormalize="true">
+                    <f:selectItem itemLabel="Közterület jellege" itemValue="#{null}"/>
+                    <f:selectItems value="#{editProfileMBean.streetType}" var="streetType"
+                                   itemLabel="#{streetType}"
+                                   itemValue="#{streetType}"/>
+                </p:selectOneMenu>
+                <h:outputLabel for="houseNumber" value="Házszám:"/>
+                <p:inputText id="houseNumber" value="#{editProfileMBean.profileAddress.houseNumber}"/>
+
+
             </p:panelGrid>
+
+
             <p:commandButton value="Mentés" action="#{editProfileMBean.saveEditProfile()}" update="messages"
                              style="margin-top: 20px; margin-left: 40%; width: 20%"/>
         </p:panel>
+
+
     </h:form>
 
 

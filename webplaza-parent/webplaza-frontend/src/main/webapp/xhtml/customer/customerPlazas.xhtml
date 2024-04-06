@@ -11,7 +11,7 @@
     <h:outputStylesheet library="css" name="styles.css"/>
 </h:head>
 <h:body style="background: linear-gradient(68deg, #ded4e8, #e8ba40);
-    font-family: cursive;
+    font-family: sans-serif;
     color: #C7395F;">
 
     <ui:include src="customerMenubar.xhtml"/>
@@ -19,9 +19,7 @@
 
         <br/>
 
-        <p:panel toggleable="true" toggleTitle="Cím megadása">
-            <p:outputLabel value="Irányítószám:" style="margin: 5px"/>
-            <p:inputText value="#{customerPlazasMBean.searchPostalCode}" style="margin: 5px"/>
+        <p:panel toggleable="true" toggleTitle="Város megadása">
             <p:outputLabel value="Város:" style="margin: 5px"/>
             <p:inputText value="#{customerPlazasMBean.searchCity}" style="margin: 5px"/>
             <br/>
@@ -29,6 +27,8 @@
             <p:commandButton value="Mehet!" actionListener="#{customerPlazasMBean.refreshPlazaList()}"
                              update=":plazasForm">
                 <f:ajax execute="@form" render=":plazasForm"/>
+                <f:ajax execute="@form" render="@form"/>
+
             </p:commandButton>
         </p:panel>
 
@@ -37,6 +37,9 @@
             <p:menuitem value="Boltok"/>
             <p:menuitem value="Termékek"/>
         </p:steps>
+
+        <p:outputPanel rendered="#{customerPlazasMBean.searchCity.length() > 0}"
+                       style="margin: 10px;padding: 25px;">Plázák a megadott címe alapján.</p:outputPanel>
 
 
     </h:form>
@@ -48,6 +51,7 @@
     padding: 65px; justify-content: center; margin : 5px;
     width: 100%;
     flex-wrap: wrap;">
+
 
         <h:form id="plazasForm" style="display: contents;
     padding: 65px; justify-content: center; margin : 5px;
@@ -61,8 +65,10 @@
                             style="margin: 10px;width: 250px;height: 300px;padding: 10px;background: #C7395F;color: cornsilk;">
                         <br/>
                         <br/>
-                        <p:outputLabel value="#{customerPlazasMBean.plazaIdShopCountMap.get(plaza.id)} bolt és " style="margin: 5px"/>
-                        <p:outputLabel value="#{customerPlazasMBean.plazaIdProductCountMap.get(plaza.id)} termék." style="margin: 5px"/>
+                        <p:outputLabel value="#{customerPlazasMBean.plazaIdShopCountMap.get(plaza.id)} bolt és "
+                                       style="margin: 5px"/>
+                        <p:outputLabel value="#{customerPlazasMBean.plazaIdProductCountMap.get(plaza.id)} termék."
+                                       style="margin: 5px"/>
                     </p:card>
                     <p:ajax event="click" listener="#{customerPlazasMBean.onPlazaClick(plaza)}"/>
                 </h:commandLink>

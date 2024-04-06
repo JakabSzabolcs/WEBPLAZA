@@ -6,6 +6,7 @@ import hu.szakdolgozat.entity.Plaza;
 import hu.szakdolgozat.entity.User;
 import hu.szakdolgozat.service.OrderService;
 import hu.szakdolgozat.service.PlazaService;
+import org.primefaces.PrimeFaces;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 
 @Named
 @ViewScoped
-public class CourierPlazas implements Serializable {
+public class CourierPlazasMBean implements Serializable {
 
     @Inject
     private OrderService orderService;
@@ -31,52 +32,60 @@ public class CourierPlazas implements Serializable {
     private PlazaService plazaService;
 
     private List<Plaza> plazaList = new ArrayList<>();
-    private Map<Long, List<Order>> waintingOrderCountByPlaza;
+    private Map<Long, List<Order>> newOrderCountByPlaza;
     private List<Plaza> filteredPlazaList = new ArrayList<>();
     private List<Order> orderListByPlaza = new ArrayList<>();
     private Address inputAddress = new Address();
+    private boolean filterByUsersCity = false;
     User loggedInUser = new User();
+    private int allNewOrderCount;
 
 
     @PostConstruct
     public void init() {
         loggedInUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("loggedInUser");
         plazaList = plazaService.getAllEntity();
-        waintingOrderCountByPlaza = plazaList.stream().collect(Collectors.toMap(Plaza::getId, plaza -> orderService.getWaitingOrdersByPlaza(plaza)));
+        newOrderCountByPlaza = plazaList.stream().collect(Collectors.toMap(Plaza::getId, plaza -> orderService.getNewOrdersByPlaza(plaza)));
+        allNewOrderCount = newOrderCountByPlaza.values().stream().mapToInt(List::size).sum();
+        refreshPlazaList();
     }
 
-    public int getWaitingOrdersByPlaza(Plaza plaza) {
-        return orderService.getWaitingOrdersByPlaza(plaza).size();
+    public int getNewOrdersByPlaza(Plaza plaza) {
+        return orderService.getNewOrdersByPlaza(plaza).size();
     }
 
     public void refreshPlazaList() {
+
         filteredPlazaList = new ArrayList<>();
         filteredPlazaList.addAll(plazaList.stream().filter(plaza -> {
-            if (inputAddress.getPostalCode() != null && !inputAddress.getPostalCode().isEmpty()) {
-                return Objects.equals(inputAddress.getPostalCode(), plaza.getAddress().getPostalCode());
-            }
-            return true;
-        }).filter(plaza -> {
             if (inputAddress.getCity() != null && !inputAddress.getCity().isEmpty()) {
                 return Objects.equals(inputAddress.getCity(), plaza.getAddress().getCity());
+            } else if (filterByUsersCity) {
+                return cityNotEmpty(loggedInUser) && loggedInUser.getAddress().getCity().equalsIgnoreCase(plaza.getAddress().getCity());
             }
             return true;
-        }).filter(plaza -> getWaitingOrdersByPlaza(plaza) > 0).collect(Collectors.toList()));
+        }).filter(plaza -> getNewOrdersByPlaza(plaza) > 0).collect(Collectors.toList()));
+        //update plazasForm
+        PrimeFaces.current().ajax().update("plazasForm");
+    }
+
+    private boolean cityNotEmpty(User loggedInUser) {
+        return loggedInUser.getAddress() != null && loggedInUser.getAddress().getCity() != null && !loggedInUser.getAddress().getCity().isEmpty();
     }
 
     public void onPlazaClick(Plaza plaza) {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedPlaza", plaza);
-        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "courierOrders.xhtml?faces-redirect=true");
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "courierOrdersUnderPlaza.xhtml?faces-redirect=true");
 
     }
 
 
-    public Map<Long, List<Order>> getWaintingOrderCountByPlaza() {
-        return waintingOrderCountByPlaza;
+    public Map<Long, List<Order>> getNewOrderCountByPlaza() {
+        return newOrderCountByPlaza;
     }
 
-    public void setWaintingOrderCountByPlaza(Map<Long, List<Order>> waintingOrderCountByPlaza) {
-        this.waintingOrderCountByPlaza = waintingOrderCountByPlaza;
+    public void setNewOrderCountByPlaza(Map<Long, List<Order>> newOrderCountByPlaza) {
+        this.newOrderCountByPlaza = newOrderCountByPlaza;
     }
 
     public List<Plaza> getFilteredPlazaList() {
@@ -117,5 +126,21 @@ public class CourierPlazas implements Serializable {
 
     public void setOrderListByPlaza(List<Order> orderListByPlaza) {
         this.orderListByPlaza = orderListByPlaza;
+    }
+
+    public int getAllNewOrderCount() {
+        return allNewOrderCount;
+    }
+
+    public boolean isFilterByUsersCity() {
+        return filterByUsersCity;
+    }
+
+    public void setFilterByUsersCity(boolean filterByUsersCity) {
+        this.filterByUsersCity = filterByUsersCity;
+    }
+
+    public void setAllNewOrderCount(int allNewOrderCount) {
+        this.allNewOrderCount = allNewOrderCount;
     }
 }

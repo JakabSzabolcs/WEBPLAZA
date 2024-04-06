@@ -22,11 +22,12 @@ public class UserDaoImpl extends JpaCommonEntityDaoImpl<User> implements UserDao
 
     @Override
     public void update(User entity) {
+        /*
+         $2a$10$ a titkosítási szabály
+         ha már titkosítva van ne legyen megint
+         */
         if (!entity.getPassword().startsWith("$2a$10$")) {
-            /*
-             * //$2a$10$ a titkosítási szabály
-             * magyarán ha már titkosítva van ne legyen megint
-             */
+
             entity.setPassword(hashPassword(entity.getPassword()));
         }
         entityManager.merge(entity);
@@ -57,6 +58,7 @@ public class UserDaoImpl extends JpaCommonEntityDaoImpl<User> implements UserDao
         }
         return null;
     }
+
 
     private String hashPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

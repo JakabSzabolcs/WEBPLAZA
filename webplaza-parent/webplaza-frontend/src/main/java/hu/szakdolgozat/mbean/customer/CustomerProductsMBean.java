@@ -1,6 +1,7 @@
 package hu.szakdolgozat.mbean.customer;
 
 import hu.szakdolgozat.entity.*;
+import hu.szakdolgozat.enums.OrderState;
 import hu.szakdolgozat.service.OrderService;
 import hu.szakdolgozat.service.ProductService;
 
@@ -89,7 +90,7 @@ public class CustomerProductsMBean implements Serializable {
         }
 
         order.setProducts(products);
-
+        order.setOrderState(OrderState.NEW);
         order.setDeliveryAddress(new Address(postalCodeIn, currentShop.getPlaza().getAddress().getCity(), streetIn, houseNumberIn));
         orderService.add(order);
 
