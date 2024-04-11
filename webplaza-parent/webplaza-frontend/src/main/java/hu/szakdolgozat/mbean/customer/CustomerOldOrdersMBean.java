@@ -33,7 +33,6 @@ public class CustomerOldOrdersMBean implements Serializable {
     private void init() {
         loggedInUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("loggedInUser");
         myOrders = orderService.getOrdersByUser(loggedInUser);
-
     }
 
     public BigDecimal getOrderSum(Order order) {

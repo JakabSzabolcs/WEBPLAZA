@@ -35,7 +35,8 @@ public class CustomerShopsMBean implements Serializable {
     public void init() {
         currentPlaza = (Plaza) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedPlaza");
         shopList = shopService.getShopsByPlazaId(currentPlaza.getId());
-        shopIdProductCountMap = shopList.stream().collect(Collectors.toMap(Shop::getId, shop -> productService.getProductsByShop(shop).size()));
+        shopIdProductCountMap = shopList.stream()
+                .collect(Collectors.toMap(Shop::getId, shop -> productService.getProductsByShop(shop).size()));
 
     }
 

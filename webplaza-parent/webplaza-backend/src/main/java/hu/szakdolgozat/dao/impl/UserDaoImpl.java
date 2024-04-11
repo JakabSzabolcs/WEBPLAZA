@@ -27,7 +27,6 @@ public class UserDaoImpl extends JpaCommonEntityDaoImpl<User> implements UserDao
          ha már titkosítva van ne legyen megint
          */
         if (!entity.getPassword().startsWith("$2a$10$")) {
-
             entity.setPassword(hashPassword(entity.getPassword()));
         }
         entityManager.merge(entity);
@@ -46,17 +45,19 @@ public class UserDaoImpl extends JpaCommonEntityDaoImpl<User> implements UserDao
     @Override
     public User authenticate(String username, String password) {
         try {
-            User user = entityManager.createQuery("select n from " + getManagedClass().getSimpleName() + " n where n.username = ?1", getManagedClass())
-                    .setParameter(1, username).getSingleResult();
+            User user = entityManager.createQuery(
+                    "SELECT u FROM User u WHERE u.username = ?1", User.class)
+                    .setParameter(1, username)
+                    .getSingleResult();
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             if (passwordEncoder.matches(password, user.getPassword())) {
                 return user;
             }
+            return null;
 
         } catch (NoResultException e) {
             return null;
         }
-        return null;
     }
 
 

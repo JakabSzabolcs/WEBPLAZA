@@ -8,10 +8,10 @@ import java.util.List;
 public class User extends AbstractFelhasznalo {
 
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Order> orders;
 
-    @OneToOne(mappedBy = "courier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "courier", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Order currentOrder;
 
     public Order getCurrentOrder() {

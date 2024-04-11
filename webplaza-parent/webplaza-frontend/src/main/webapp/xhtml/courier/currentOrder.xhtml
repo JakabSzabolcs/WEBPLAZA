@@ -31,11 +31,9 @@
 
                 <p:outputLabel value="Rendelés azonosítója: #{courierCurrentOrderMBean.currentOrder.id}"
                                style="margin: 5px"/>
+                <br/>
                 <p:outputLabel rendered="#{courierCurrentOrderMBean.currentOrder.customer.fullname != null}"
-                               value="Rendelő #{courierCurrentOrderMBean.currentOrder.customer.fullname}"
-                               style="margin: 5px"/>
-                <p:outputLabel rendered="#{courierCurrentOrderMBean.currentOrder.customer.phoneNumber != null} "
-                               value="Elérhetősége #{courierCurrentOrderMBean.currentOrder.customer.phoneNumber}"
+                               value="Megrendelő telefonszáma #{courierCurrentOrderMBean.currentOrder.customer.phoneNumber}"
                                style="margin: 5px"/>
             </p:panel>
 

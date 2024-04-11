@@ -23,6 +23,13 @@
             <p:outputLabel value="Város:" style="margin: 5px"/>
             <p:inputText value="#{customerPlazasMBean.searchCity}" style="margin: 5px"/>
             <br/>
+            <p:outputLabel value="Szűrés az én címemre" style="margin: 5px"/>
+            <p:toggleSwitch onIcon="pi pi-check" offIcon="pi pi-times" value="#{customerPlazasMBean.filterByUsersCity}"
+                            style="margin: 5px">
+                <p:ajax event="change" update=":searchPlaza" listener="#{customerPlazasMBean.refreshPlazaList()}"/>
+
+            </p:toggleSwitch>
+
             <br/>
             <p:commandButton value="Mehet!" actionListener="#{customerPlazasMBean.refreshPlazaList()}"
                              update=":plazasForm">

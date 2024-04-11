@@ -2,6 +2,8 @@ package hu.szakdolgozat.mbean.admin;
 
 import hu.szakdolgozat.entity.User;
 import hu.szakdolgozat.enums.UserType;
+import hu.szakdolgozat.service.ProductService;
+import hu.szakdolgozat.service.ShopService;
 import hu.szakdolgozat.service.UserService;
 
 import javax.annotation.PostConstruct;
@@ -29,6 +31,10 @@ public class AdminUsersMBean implements Serializable {
 
     @Inject
     private UserService userService;
+    @Inject
+    private ShopService shopService;
+    @Inject
+    private ProductService productService;
 
 
     @PostConstruct
@@ -65,6 +71,10 @@ public class AdminUsersMBean implements Serializable {
             selectedUser.setPassword(password);
             userService.add(selectedUser);
         } else {
+            if(usernameExists && selectedUser.getUsername().equals( username)) {
+                errorMessage("A felhasználónév már létezik");
+                return;
+            }
             selectedUser.setPassword(password);
             userService.update(selectedUser);
         }
@@ -74,6 +84,10 @@ public class AdminUsersMBean implements Serializable {
     }
 
     public void remove() {
+        if (!shopService.getShopsByOwnerUser(selectedUser).isEmpty()) {
+            errorMessage("A felhasználóhoz bolt tartozik , nem törölhető.");
+            return;
+        }
         userService.delete(selectedUser);
         load();
         selectedUser = new User();

@@ -10,8 +10,8 @@
     <title>Plázák</title>
     <h:outputStylesheet library="css" name="styles.css"/>
 </h:head>
-<h:body style="background: linear-gradient(90deg, #ded4e8, #e8ba40);
-    font-family: sans-serif; height: 100%; margin: 0; padding: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center
+<h:body style="background: linear-gradient(68deg, #ded4e8, #e8ba40);
+    font-family: sans-serif;
     color: #C7395F;">
 
     <ui:include src="customerMenubar.xhtml"/>
@@ -35,15 +35,15 @@
     <br/>
     <br/>
 
-    <div style="display: flex;
+    <h:form id="plazasForm" style="display: flex;
+    padding: 65px; justify-content: center; margin : 5px;
+    width: 100%;
+    flex-wrap: wrap;">
+        <div style="display: flex;
     padding: 65px; justify-content: center; margin : 5px;
     width: 100%;
     flex-wrap: wrap;">
 
-        <h:form id="plazasForm" style="display: flex;
-    padding: 65px; justify-content: center; margin : 5px;
-    width: 100%;
-    flex-wrap: wrap;">
 
             <ui:repeat value="#{customerShopsMBean.shopList}" var="shop">
                 <h:commandLink style="text-decoration: none;">
@@ -63,7 +63,8 @@
                     <p:ajax event="click" listener="#{customerShopsMBean.onShopClick(shop)}"/>
                 </h:commandLink>
             </ui:repeat>
-        </h:form>
-    </div>
+
+        </div>
+    </h:form>
 </h:body>
 </html>

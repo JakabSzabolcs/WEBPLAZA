@@ -2,7 +2,6 @@ hu\szakdolgozat\mbean\customer\CustomerShopsMBean.class
 hu\szakdolgozat\mbean\admin\AdminPlazasMBean.class
 hu\szakdolgozat\mbean\customer\CustomerProductsMBean.class
 hu\szakdolgozat\mbean\EditProfileMBean.class
-hu\szakdolgozat\ShopPojo.class
 hu\szakdolgozat\mbean\LoginMBean$1.class
 hu\szakdolgozat\mbean\customer\CustomerOldOrdersMBean.class
 hu\szakdolgozat\mbean\courier\CourierCurrentOrderMBean.class

@@ -27,11 +27,10 @@ public class CustomerProductsMBean implements Serializable {
     private List<Product> productList;
 
     private String postalCodeIn;
+    private String cityIn;
     private String streetIn;
     private String houseNumberIn;
 
-    private final List<String> streetType = List.of("utca", "út", "tér", "körút", "sétány", "sor", "dűlő", "lejáró", "park", "parkja", "tanya", "völgy", "rét", "erdő", "domb", "hegy", "sziget");
-    private String streetTypeSelected;
     private Order currentOrder = new Order();
     private User loggedInUser;
 
@@ -48,6 +47,10 @@ public class CustomerProductsMBean implements Serializable {
         loggedInUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("loggedInUser");
         currentShop = (Shop) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedShop");
         productList = productService.getProductsByShop(currentShop);
+        postalCodeIn = loggedInUser.getAddress().getPostalCode();
+        cityIn = loggedInUser.getAddress().getCity();
+        streetIn = loggedInUser.getAddress().getStreet();
+        houseNumberIn = loggedInUser.getAddress().getHouseNumber();
 
         plazaIdOrderMap = (Map<Long, Order>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("plazaOrderMap");
         if (plazaIdOrderMap == null) {
@@ -58,7 +61,6 @@ public class CustomerProductsMBean implements Serializable {
             currentOrder = new Order();
             currentOrder.setProducts(List.of());
             plazaIdOrderMap.put(currentShop.getPlaza().getId(), currentOrder);
-
         }
     }
 
@@ -68,7 +70,8 @@ public class CustomerProductsMBean implements Serializable {
         currentOrder.setProducts(products);
 
         saveOrdertoSession();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sikeres rendelés", "A termék a kosárba került"));
+        FacesContext.getCurrentInstance()
+                .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Siker!", "A termék a kosárba került"));
 
     }
 
@@ -91,7 +94,7 @@ public class CustomerProductsMBean implements Serializable {
 
         order.setProducts(products);
         order.setOrderState(OrderState.NEW);
-        order.setDeliveryAddress(new Address(postalCodeIn, currentShop.getPlaza().getAddress().getCity(), streetIn, houseNumberIn));
+        order.setDeliveryAddress(new Address(postalCodeIn, cityIn, streetIn, houseNumberIn));
         orderService.add(order);
 
         currentOrder = new Order();
@@ -155,16 +158,12 @@ public class CustomerProductsMBean implements Serializable {
         this.loggedInUser = loggedInUser;
     }
 
-    public List<String> getStreetType() {
-        return streetType;
+    public String getCityIn() {
+        return cityIn;
     }
 
-    public String getStreetTypeSelected() {
-        return streetTypeSelected;
-    }
-
-    public void setStreetTypeSelected(String streetTypeSelected) {
-        this.streetTypeSelected = streetTypeSelected;
+    public void setCityIn(String cityIn) {
+        this.cityIn = cityIn;
     }
 
     public String getPostalCodeIn() {

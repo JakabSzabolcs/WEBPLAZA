@@ -168,19 +168,10 @@
                 <h:outputLabel for="zipCode" value="Irányítószám:"/>
                 <p:inputText id="zipCode" value="#{customerProductsMBean.postalCodeIn}"/>
                 <h:outputLabel for="city" value="Város:"/>
-                <p:inputText id="city" value="#{customerProductsMBean.currentShop.plaza.address.city}"
+                <p:inputText id="city" value="#{customerProductsMBean.cityIn}"
                              disabled="true"/>
                 <h:outputLabel for="street" value="Utca:"/>
                 <p:inputText id="street" value="#{customerProductsMBean.streetIn}"/>
-                <h:outputLabel for="streetType" value="Közterület jellege:"/>
-                <p:selectOneMenu id="streetType" value="#{customerProductsMBean.streetTypeSelected}"
-                                 style="width: 80%"
-                                 filter="true" filterMatchMode="contains" filterNormalize="true">
-                    <f:selectItem itemLabel="Közterület jellege" itemValue="#{null}"/>
-                    <f:selectItems value="#{customerProductsMBean.streetType}" var="streetType"
-                                   itemLabel="#{streetType}"
-                                   itemValue="#{streetType}"/>
-                </p:selectOneMenu>
                 <h:outputLabel for="houseNumber" value="Házszám:"/>
                 <p:inputText id="houseNumber" value="#{customerProductsMBean.houseNumberIn}"/>
                 <p:commandButton value="Rendelés!" action="#{customerProductsMBean.placingOrder()}"

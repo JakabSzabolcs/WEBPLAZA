@@ -45,8 +45,8 @@
                      rows="5"
                      rowKey="#{user.id}"
                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                     rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} érték"
+                     rowsPerPageTemplate="5,10,{ShowAll|'Mind'}">
 
             <p:ajax event="rowSelect" update="@form"/>
             <p:ajax event="rowUnselect" listener="#{adminUsersMBean.init()}" update="@form"/>
@@ -85,7 +85,7 @@
                                    requiredMessage="Szerepkör kiválasztása kötelező!"/>
                 </p:selectOneMenu>
             </p:panelGrid>
-            <p:commandButton value="Mentés" action="#{adminUsersMBean.save()}"
+            <p:commandButton value="Mentés" action="#{adminUsersMBean.save()}" style="margin: 10px;"
                              oncomplete="PF('editDialog').hide()" update=":adminForm"/>
             <p:commandButton value="Mégse" onclick="PF('editDialog').hide()"/>
         </h:form>

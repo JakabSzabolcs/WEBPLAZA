@@ -7,6 +7,7 @@ import hu.szakdolgozat.entity.User;
 import hu.szakdolgozat.enums.OrderState;
 import hu.szakdolgozat.service.OrderService;
 import hu.szakdolgozat.service.ProductService;
+import org.primefaces.PrimeFaces;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -41,7 +42,6 @@ public class CourierOldersUnderPlazaMBean implements Serializable {
     }
 
     public void acceptOrder() {
-        //ha már van currentOrder, akkor nem tudja elfogadni : return és hibaüzenet
         if (selectedOrder.getCourier() != null) {
             return;
         }
@@ -53,6 +53,9 @@ public class CourierOldersUnderPlazaMBean implements Serializable {
         selectedOrder.setOrderState(OrderState.IN_PROGRESS);
         orderService.update(selectedOrder);
         refreshOrderList();
+        FacesContext.getCurrentInstance().getApplication()
+                .getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "courierOrdersUnderPlaza.xhtml?faces-redirect=true");
+
     }
 
 

@@ -43,8 +43,8 @@ public class LoginMBean implements Serializable {
         loggedInUser = userService.authenticate(username, password);
         if (loggedInUser != null) {
             String redirectUrl = "login.xhtml";
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("loggedInUser", loggedInUser);
-
+            FacesContext.getCurrentInstance().getExternalContext()
+                    .getSessionMap().put("loggedInUser", loggedInUser);
             switch (loggedInUser.getType()) {
                 case ADMIN:
                     redirectUrl = "admin/adminMenubar.xhtml";
@@ -59,14 +59,16 @@ public class LoginMBean implements Serializable {
                     redirectUrl = "shopowner/shopOwnerMenuBar.xhtml";
                     break;
             }
-
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect(redirectUrl);
             } catch (IOException e) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hiba", "Hiba történt a bejelentkezés során!"));
+                FacesContext.getCurrentInstance()
+                        .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                "Hiba", "Hiba történt a bejelentkezés során!"));
             }
         } else {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Hibás adatok", "Hibás felhasználónév vagy jelszó!");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Hibás adatok", "Hibás felhasználónév vagy jelszó!");
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
@@ -78,18 +80,23 @@ public class LoginMBean implements Serializable {
         try {
             externalContext.redirect(externalContext.getRequestContextPath() + "/xhtml/login.xhtml");
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hiba", "Hiba történt a kijelentkezés során!"));
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hiba", "Hiba történt a kijelentkezés során!"));
         }
     }
 
     public void register() {
         User user = userService.getUserByUsername(username);
         if (user != null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hiba", "A felhasználónév már foglalt!"));
+            FacesContext.getCurrentInstance()
+                    .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Hiba", "A felhasználónév már foglalt!"));
             return;
         }
         if (!password.equals(passwordAgain)) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hiba", "A két jelszó nem egyezik!"));
+            FacesContext.getCurrentInstance()
+                    .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Hiba", "A két jelszó nem egyezik!"));
             return;
         }
         User newUser = new User();
@@ -99,7 +106,9 @@ public class LoginMBean implements Serializable {
         newUser.setType(UserType.CUSTOMER);
         newUser.setCreationDate(new Date());
         userService.add(newUser);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sikeres regisztráció", "Sikeres regisztráció! Most már bejelentkezhet!"));
+        FacesContext.getCurrentInstance()
+                .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Sikeres regisztráció", "Sikeres regisztráció! Most már bejelentkezhet!"));
         PrimeFaces.current().executeScript("PF('registerDialog').hide();");
 
     }

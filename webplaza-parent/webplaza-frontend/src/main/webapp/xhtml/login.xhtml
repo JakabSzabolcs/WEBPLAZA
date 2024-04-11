@@ -46,15 +46,15 @@
     <p:dialog modal="true" id="registerDialog" widgetVar="registerDialog" closable="true" style="width: fit-content">
         <h:form id="registerDialogForm">
             <p:panelGrid columns="2" layout="grid">
-                <p:outputLabel for="Eusername" value="#{msg['fillusername']}"/>
-                <p:inputText id="Eusername" value="#{loginMBean.username}" required="true"/>
-                <p:outputLabel for="EphoneNumber" value="Telefonszám"/>
-                <p:inputMask id="EphoneNumber" mask="+36 99 999-9999" value="#{loginMBean.phoneNumber}" required="true"/>
-                <p:outputLabel for="Epassword" value="#{msg['fillpassword']}"/>
-                <p:password id="Epassword" value="#{loginMBean.password}" toggleMask="true" required="true"
+                <p:outputLabel for="Eusername" value="#{msg['username']}"/>
+                <p:inputText id="Eusername" value="#{loginMBean.username}" required="true" requiredMessage="Felhasználónév megadása kötelező."/>
+                <p:outputLabel for="EphoneNumber" value="Telefonszám:"/>
+                <p:inputMask id="EphoneNumber" mask="+36 99 999-9999" value="#{loginMBean.phoneNumber}" required="true" requiredMessage="Telefonszám megadása kötelező."/>
+                <p:outputLabel for="Epassword" value="#{msg['password']}"/>
+                <p:password id="Epassword" value="#{loginMBean.password}" toggleMask="true" required="true" requiredMessage="Jelszó megadása kötelező!"
                             redisplay="true"/>
                 <p:outputLabel for="EpasswordAgain" value="#{msg['passwordAgain']}"/>
-                <p:password id="EpasswordAgain" value="#{loginMBean.passwordAgain}" toggleMask="true" required="true"
+                <p:password id="EpasswordAgain" value="#{loginMBean.passwordAgain}" toggleMask="true" required="true" requiredMessage="Jelszó megadása kötelező!"
                             redisplay="true"/>
                 <!--                <p:captcha label="Captcha"/>-->
 

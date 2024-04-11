@@ -26,7 +26,8 @@ public class OrderDaoImpl extends JpaCommonEntityDaoImpl<Order> implements Order
     @Override
     public List<Order> getNewOrdersByPlaza(Plaza plaza) {
         try {
-            List<Integer> orderIds = entityManager.createNativeQuery(SELECT_NEW_ORDERS_BY_PLAZA).setParameter("plazaId", plaza.getId()).getResultList();
+            List<Integer> orderIds = entityManager.createNativeQuery(
+                    SELECT_NEW_ORDERS_BY_PLAZA).setParameter("plazaId", plaza.getId()).getResultList();
             List<Order> orders = new ArrayList<>();
             for (Integer orderId : orderIds) {
                 Order order = entityManager.find(Order.class, Long.valueOf(orderId));

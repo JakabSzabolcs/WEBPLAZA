@@ -65,7 +65,6 @@ public class CourierPlazasMBean implements Serializable {
             }
             return true;
         }).filter(plaza -> getNewOrdersByPlaza(plaza) > 0).collect(Collectors.toList()));
-        //update plazasForm
         PrimeFaces.current().ajax().update("plazasForm");
     }
 
@@ -74,8 +73,10 @@ public class CourierPlazasMBean implements Serializable {
     }
 
     public void onPlazaClick(Plaza plaza) {
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedPlaza", plaza);
-        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "courierOrdersUnderPlaza.xhtml?faces-redirect=true");
+        FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap().put("selectedPlaza", plaza);
+        FacesContext.getCurrentInstance().getApplication()
+                .getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "courierOrdersUnderPlaza.xhtml?faces-redirect=true");
 
     }
 

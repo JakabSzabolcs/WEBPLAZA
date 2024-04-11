@@ -28,6 +28,7 @@ public class CustomerPlazasMBean implements Serializable {
     private List<Plaza> filteredPlazaList = new ArrayList<>();
     private Map<Long, Integer> plazaIdShopCountMap;
     private Map<Long, Integer> plazaIdProductCountMap;
+    private boolean filterByUsersCity = false;
     private User loggedInUser;
 
     @Inject
@@ -52,10 +53,13 @@ public class CustomerPlazasMBean implements Serializable {
     public void refreshPlazaList() {
         filteredPlazaList = new ArrayList<>();
         filteredPlazaList.addAll(plazaList.stream().filter(plaza -> {
-            if (searchCity != null && !searchCity.isEmpty()) {
-                return searchCity.equals(plaza.getAddress().getCity());
+            if (searchCity != null) {
+                return searchCity.equalsIgnoreCase(plaza.getAddress().getCity());
             }
-            return cityNotEmpty(loggedInUser) && loggedInUser.getAddress().getCity().equalsIgnoreCase(plaza.getAddress().getCity());
+            if(filterByUsersCity){
+                return cityNotEmpty(loggedInUser) && loggedInUser.getAddress().getCity().equalsIgnoreCase(plaza.getAddress().getCity());
+            }
+            return true;
         }).filter(plaza -> plazaIdProductCountMap.get(plaza.getId()) > 0).collect(Collectors.toList()));
         PrimeFaces.current().executeScript("PF('plazasForm').update();");
     }
@@ -65,8 +69,11 @@ public class CustomerPlazasMBean implements Serializable {
     }
 
     public void onPlazaClick(Plaza plaza) {
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedPlaza", plaza);
-        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "customerShops.xhtml?faces-redirect=true");
+        FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap().put("selectedPlaza", plaza);
+        FacesContext.getCurrentInstance()
+                .getApplication().getNavigationHandler()
+                .handleNavigation(FacesContext.getCurrentInstance(), null, "customerShops.xhtml?faces-redirect=true");
 
     }
 
@@ -124,5 +131,13 @@ public class CustomerPlazasMBean implements Serializable {
 
     public void setLoggedInUser(User loggedInUser) {
         this.loggedInUser = loggedInUser;
+    }
+
+    public boolean isFilterByUsersCity() {
+        return filterByUsersCity;
+    }
+
+    public void setFilterByUsersCity(boolean filterByUsersCity) {
+        this.filterByUsersCity = filterByUsersCity;
     }
 }
